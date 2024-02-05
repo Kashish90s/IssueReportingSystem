@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'dob',
         'type',
+        'status',
         'google_id',
         'flagged'
     ];

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Status;
+use App\Enums\UserType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('code')->unique();
-            $table->string('password');
-            $table->string('dob');
-            $table->integer('type')->default(0);
+            $table->string('name')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('code')->unique()->nullable();
+            $table->string('password')->nullable();
+            $table->string('dob')->nullable();
+            $table->integer('type')->default(UserType::Client);
             $table->string('status')->default(Status::Active);
             $table->string('google_id')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
