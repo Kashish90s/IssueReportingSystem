@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('dob')->nullable();
             $table->integer('type')->default(UserType::Client);
-            $table->string('status')->default(Status::Active);
+            $table->integer('status')->default(Status::Active);
             $table->string('google_id')->unique()->nullable();
-            $table->timestamp('email_verified_at')->nullable();
             $table->boolean('flagged')->default(false);
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

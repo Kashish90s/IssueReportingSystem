@@ -22,22 +22,17 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-        //    'name' => 'required',
-        //    'code' => 'required|unique:App\Models\User,id',
-        //    'email' => 'required',
-        //    'password' => 'required',
-        //    'type' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
         ];
     }
     public function message(): array
     {
         return [
-        //    'name.required' => 'Required',
-        //    'code.required' => 'Required',
-        //    'code.unique' => 'Already Exists',
-        //    'email.required' => 'Required',
-        //    'password.required' => 'Required',
-        //    'type.required' => 'Required',
+            'name.required' => 'Required',
+            'email.required' => 'Required',
+            'password.required' => 'Required',
         ];
     }
 }
