@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ApiStatus;
+use App\Enums\Status;
 use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 use Exception;
@@ -56,7 +57,6 @@ class UserController extends Controller
             $user->dob = $request->dob;
             $user->google_id = $request->google_id;
             $user->type = $request->type;
-            $user->status = $request->status;
             $user->flagged = $request->flagged;
             $user->save();
             return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);
@@ -69,6 +69,21 @@ class UserController extends Controller
             $user =User::findorfail($id);
             $user->delete();
             return null;
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function toggleStatus($id){
+        try{
+            $user = User::findorfail($id);
+            if($user->status == Status::Active){
+               $user->status = Status::Inactive;
+            }
+            else{
+                $user->status = Status::Active;
+            }
+            $user->save();
+            return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
