@@ -57,7 +57,6 @@ class UserController extends Controller
             $user->dob = $request->dob;
             $user->google_id = $request->google_id;
             $user->type = $request->type;
-            $user->flagged = $request->flagged;
             $user->save();
             return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);
         }catch(Exception $e){
@@ -82,6 +81,16 @@ class UserController extends Controller
             else{
                 $user->status = Status::Active;
             }
+            $user->save();
+            return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function toggleFlagged($id){
+        try{
+            $user = User::findorfail($id);
+            $user->flagged = !$user->flagged;
             $user->save();
             return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);
         }catch(Exception $e){
