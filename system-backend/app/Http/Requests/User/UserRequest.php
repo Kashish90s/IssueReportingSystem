@@ -23,7 +23,7 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:App\Models\User,email',
             'password' => 'required',
         ];
     }
