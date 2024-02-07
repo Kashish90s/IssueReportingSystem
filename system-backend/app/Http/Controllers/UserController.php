@@ -18,6 +18,15 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);
         }
     }
+
+    public function getById($id){
+        try{
+            $user = User::findorfail($id);
+            return response()->json([ApiStatus::Success,'Id found and data fetched','user'=>$user], 200);;
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
     public function create(UserRequest $request){
         try{
             $user = new User();
@@ -51,6 +60,15 @@ class UserController extends Controller
             $user->flagged = $request->flagged;
             $user->save();
             return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function delete($id){
+        try{
+            $user =User::findorfail($id);
+            $user->delete();
+            return null;
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
