@@ -5,9 +5,9 @@ namespace App\Enums;
 use BenSampo\Enum\Enum;
 
 /**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
+ * @method static static SuperAdmin()
+ * @method static static Admin()
+ * @method static static Client()
  */
 final class UserType extends Enum
 {
