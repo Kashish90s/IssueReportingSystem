@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\IssueStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->date('reported_date')->nullable();
             $table->foreignId('user_id')->constrained('users','id')->nullable();
             $table->foreignId('location_id')->constrained('locations','id')->nullable();
-            $table->integer('issue_status')->default(0);
+            $table->integer('issue_status')->default(IssueStatus::Processing);
             $table->foreignId('issue_type')->constrained('issue_types','id')->nullable();
             $table->foreignId('image_id')->constrained('images','id')->nullable();
             $table->string('votes')->nullable();
