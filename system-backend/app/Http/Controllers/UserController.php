@@ -29,15 +29,9 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function create(UserRequest $request){
+    public function create(UserRequest $request, User $user){
         try{
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->code = $request->code;
-            $user->password = $request->password;
-            $user->dob = $request->dob;
-            $user->google_id = $request->google_id;
+            $user->fill($request->validated());
             $user->save();
             return response()->json([ApiStatus::Success,'Added','user'=>$user], 200);
         }catch(Exception $e){
