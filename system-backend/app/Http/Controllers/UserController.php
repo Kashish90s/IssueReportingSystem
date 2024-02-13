@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\ApiStatus;
 use App\Enums\Status;
-use App\Enums\UserType;
 use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 use Exception;
