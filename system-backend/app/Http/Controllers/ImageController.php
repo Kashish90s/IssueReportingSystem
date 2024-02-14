@@ -2,64 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ApiStatus;
+use App\Http\Requests\Image\ImageRequest;
 use App\Models\Image;
-use Illuminate\Http\Request;
+use Exception;
 
 class ImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function getAll(){
+        try{
+            $image = Image::all();
+            return response()->json([ApiStatus::Success,'All data fetched','image'=>$image], 200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function getById($id){
+        try{
+            $image = Image::findorfail($id);
+            return response()->json([ApiStatus::Success,'Id found and data fetched','image'=>$image], 200);;
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function create(ImageRequest $request, Image $image){
+        try{
+            $image->fill($request->validated());
+            $image->save();
+            return response()->json([ApiStatus::Success,'Added','image'=>$image], 200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function update(ImageRequest $request, $id){
+        try{
+            $image = Image::findorfail($id);
+            $image->image_holder = $request->image_holder;
+            $image->user_id = $request->user_id;
+            $image->save();
+            return response()->json([ApiStatus::Success,'Updated','image'=>$image],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Image $image)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Image $image)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Image $image)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Image $image)
-    {
-        //
+    public function delete($id){
+        try{
+            $image =Image::findorfail($id);
+            $image->delete();
+            return null;
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
     }
 }
