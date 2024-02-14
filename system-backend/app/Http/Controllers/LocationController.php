@@ -40,13 +40,9 @@ class LocationController extends Controller
     public function update(LocationRequest $request, $id){
         try{
             $location = Location::findorfail($id);
-            $location->name = $request->name;
-            $location->email = $request->email;
-            $location->code = $request->code;
-            $location->password = $request->password;
-            $location->dob = $request->dob;
-            $location->google_id = $request->google_id;
-            $location->type = $request->type;
+            $location->street_name = $request->street_name;
+            $location->ward = $request->ward;
+            $location->zip_code = $request->zip_code;
             $location->save();
             return response()->json([ApiStatus::Success,'Updated','location'=>$location],200);
         }catch(Exception $e){
