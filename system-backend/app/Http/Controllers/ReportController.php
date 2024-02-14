@@ -5,16 +5,11 @@ namespace App\Http\Controllers;
 use App\Enums\ApiStatus;
 use App\Enums\IssueStatus;
 use App\Http\Requests\Report\ReportRequest;
-use App\Models\IssueType;
 use App\Models\Report;
 use Exception;
-use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function getAll()
     {
         try{

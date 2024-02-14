@@ -2,64 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ApiStatus;
+use App\Http\Requests\Notification\NotificationRequest;
 use App\Models\Notification;
+use Exception;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function getAll(){
+        try{
+            $notification = Notification::all();
+            return response()->json([ApiStatus::Success,'All data fetched','notification'=>$notification], 200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function getById($id){
+        try{
+            $notification = Notification::findorfail($id);
+            return response()->json([ApiStatus::Success,'Id found and data fetched','notification'=>$notification], 200);;
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function create(NotificationRequest $request, Notification $notification){
+        try{
+            $notification->fill($request->validated());
+            $notification->save();
+            return response()->json([ApiStatus::Success,'Added','notification'=>$notification], 200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function update(NotificationRequest $request, $id){
+        try{
+            $notification = Notification::findorfail($id);
+            $notification->title = $request->name;
+            $notification->description = $request->email;
+            $notification->notification_date = $request->code;
+            $notification->user_id = $request->password;
+            $notification->report_id = $request->dob;
+            $notification->image_id = $request->google_id;
+            $notification->save();
+            return response()->json([ApiStatus::Success,'Updated','notification'=>$notification],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Notification $notification)
-    {
-        //
+    public function delete($id){
+        try{
+            $notification =Notification::findorfail($id);
+            $notification->delete();
+            return null;
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
     }
 }
