@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,15 +19,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-///User Route
 
-Route::post('/user/add',[UserController::class, 'create']);
-Route::post('/user/update/{id}',[UserController::class, 'update']);
-Route::get('/user',[UserController::class, 'getAll']);
-Route::get('/user/{id}',[UserController::class, 'getById']);
-Route::get('/user/delete/{id}',[UserController::class, 'delete']);
-Route::post('/user/toggleStatus/{id}',[UserController::class,'toggleStatus']);
-Route::post('/user/toggleFlagged/{id}',[UserController::class,'toggleFlagged']);
+require('User\User.php');
+require('Report\Report.php');
+require('Comment\Comment.php');
+require('Location\Location.php');
+require('IssueType\IssueType.php');
+require('Image\Image.php');
+require('Notification\Notification.php');
 
 
-////
+
