@@ -3,8 +3,8 @@
 use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/user/add',[LocationController::class, 'create']);
-Route::post('/user/update/{id}',[LocationController::class, 'update']);
-Route::get('/user',[LocationController::class, 'getAll']);
-Route::get('/user/{id}',[LocationController::class, 'getById']);
-Route::get('/user/delete/{id}',[LocationController::class, 'delete']);
+Route::post('/location/add',[LocationController::class, 'create']);
+Route::post('/location/update/{id}',[LocationController::class, 'update']);
+Route::get('/location',[LocationController::class, 'getAll']);
+Route::get('/location/{id}',[LocationController::class, 'getById']);
+Route::get('/location/delete/{id}',[LocationController::class, 'delete']);
