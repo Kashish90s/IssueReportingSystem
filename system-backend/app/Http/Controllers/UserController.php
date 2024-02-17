@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ApiStatus;
 use App\Enums\Status;
+use App\Enums\UserType;
 use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 use Exception;
@@ -47,7 +48,7 @@ class UserController extends Controller
             $user->password = $request->password;
             $user->dob = $request->dob;
             $user->google_id = $request->google_id;
-            $user->type = $request->type;
+            $user->type = $request->type ?? UserType::Client();
             $user->save();
             return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);
         }catch(Exception $e){
