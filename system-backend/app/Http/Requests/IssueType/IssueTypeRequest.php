@@ -23,13 +23,11 @@ class IssueTypeRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'description' => 'required'
         ];
     }
     public function message(): array{
         return [
             'title.required' => 'Required',
-            'description.required' => 'Required'
         ];
     }
 }

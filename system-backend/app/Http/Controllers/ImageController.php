@@ -26,15 +26,27 @@ class ImageController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+
+
     public function create(ImageRequest $request, Image $image){
         try{
-            $image->fill($request->validated());
+
+            if($request->hasFile('image_holder')){
+                $media = $request->file('image_holder');
+                $filename = $media->getClientOriginalName() . '.' . $media->getClientOriginalExtension();
+                $media->move('./storage',$filename);
+                $image->image_holder = $filename;
+            }
+            $image->user_id = $request->user_id;
             $image->save();
             return response()->json([ApiStatus::Success,'Added','image'=>$image], 200);
         }catch(Exception $e){
+            dd($e);
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+
+
 
     public function update(ImageRequest $request, $id){
         try{

@@ -51,7 +51,7 @@ class ReportController extends Controller
             $report->reported_date = $request->reported_date;
             $report->user_id = $request->user_id;
             $report->location_id = $request->location_id;
-            $report->issue_status = $request->issue_status;
+            $report->issue_status = $request->issue_status ?? IssueStatus::Processing;
             $report->issue_type = $request->issue_type;
             $report->image_id = $request->image_id;
             $report->votes = $request->votes;
