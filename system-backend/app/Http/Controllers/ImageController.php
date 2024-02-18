@@ -33,7 +33,7 @@ class ImageController extends Controller
 
             if($request->hasFile('image_holder')){
                 $media = $request->file('image_holder');
-                $filename = $media->getClientOriginalName() . '.' . $media->getClientOriginalExtension();
+                $filename = $media->getClientOriginalName();
                 $media->move('./storage',$filename);
                 $image->image_holder = $filename;
             }
@@ -51,7 +51,12 @@ class ImageController extends Controller
     public function update(ImageRequest $request, $id){
         try{
             $image = Image::findorfail($id);
-            $image->image_holder = $request->image_holder;
+            if($request->hasFile('image_holder')){
+                $media = $request->file('image_holder');
+                $filename = $media->getClientOriginalName();
+                $media->move('./storage',$filename);
+                $image->image_holder = $filename;
+            }
             $image->user_id = $request->user_id;
             $image->save();
             return response()->json([ApiStatus::Success,'Updated','image'=>$image],200);
