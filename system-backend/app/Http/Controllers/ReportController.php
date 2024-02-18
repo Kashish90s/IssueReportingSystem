@@ -45,6 +45,7 @@ class ReportController extends Controller
 
     public function update(ReportRequest $request, $id){
         try{
+
             $report = Report::findorfail($id);
             $report->title = $request->title;
             $report->description = $request->description;

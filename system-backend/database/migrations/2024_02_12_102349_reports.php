@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->date('reported_date')->nullable();
-            $table->foreignId('user_id')->constrained('users','id')->nullable();
-            $table->foreignId('location_id')->constrained('locations','id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users','id');
+            $table->foreignId('location_id')->nullable()->constrained('locations','id');
             $table->integer('issue_status')->default(IssueStatus::Processing);
-            $table->foreignId('issue_type')->constrained('issue_types','id')->nullable();
-            $table->foreignId('image_id')->constrained('images','id')->nullable();
+            $table->foreignId('issue_type')->nullable()->constrained('issue_types','id');
+            $table->foreignId('image_id')->nullable()->constrained('images','id');
             $table->string('votes')->nullable();
             $table->softDeletes();
             $table->timestamps();
