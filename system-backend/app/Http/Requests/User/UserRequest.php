@@ -26,7 +26,9 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required',
             //RFC 5322 standard for email addresses
-            'email' => 'required|email:rfc,dns','max:255',Rule::unique('users')->ignore($userId),
+            // 'email' => 'required|email:rfc,dns','max:255',Rule::unique('users')->ignore($userId),
+            //. operator also used as a ignore syntax
+            'email' => 'required|email:rfc,dns|max:255|unique:users,email,' . $userId,
             'password' => 'required',
         ];
     }
