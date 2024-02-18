@@ -25,8 +25,8 @@ class UserRequest extends FormRequest
         $userId = $this->route('user');
         return [
             'name' => 'required',
-            'email' => 'required','email','max:255',
-            Rule::unique('users')->ignore($userId),
+            //RFC 5322 standard for email addresses
+            'email' => 'required|email:rfc,dns','max:255',Rule::unique('users')->ignore($userId),
             'password' => 'required',
         ];
     }
@@ -35,6 +35,7 @@ class UserRequest extends FormRequest
         return [
             'name.required' => 'Required',
             'email.required' => 'Required',
+            'email.email' => 'Email type invalid',
             'password.required' => 'Required',
         ];
     }
