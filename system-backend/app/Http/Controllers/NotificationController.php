@@ -40,12 +40,12 @@ class NotificationController extends Controller
     public function update(NotificationRequest $request, $id){
         try{
             $notification = Notification::findorfail($id);
-            $notification->title = $request->name;
-            $notification->description = $request->email;
-            $notification->notification_date = $request->code;
-            $notification->user_id = $request->password;
-            $notification->report_id = $request->dob;
-            $notification->image_id = $request->google_id;
+            $notification->title = $request->title;
+            $notification->description = $request->description;
+            $notification->notification_date = $request->notification_date;
+            $notification->user_id = $request->user_id;
+            $notification->report_id = $request->report_id;
+            $notification->image_id = $request->image_id;
             $notification->save();
             return response()->json([ApiStatus::Success,'Updated','notification'=>$notification],200);
         }catch(Exception $e){

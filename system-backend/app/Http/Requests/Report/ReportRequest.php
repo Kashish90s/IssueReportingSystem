@@ -22,6 +22,12 @@ class ReportRequest extends FormRequest
         return [
             'title' => 'required',
             'issue_type' => 'required',
+            'description' => 'nullable',
+            'reported_date' => 'nullable',
+            'user_id' => 'nullable',
+            'location_id' => 'nullable',
+            'image_id'=> 'nullable',
+            'votes' => 'nullable',
         ];
     }
 

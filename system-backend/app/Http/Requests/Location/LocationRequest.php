@@ -23,7 +23,8 @@ class LocationRequest extends FormRequest
     {
         return [
             'street_name' => 'required',
-            'ward' => 'required'
+            'ward' => 'required',
+            'zip_code' => 'nullable|string'
         ];
     }
     public function message(): array{

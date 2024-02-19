@@ -23,6 +23,8 @@ class IssueTypeRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'description' => 'nullable',
+
         ];
     }
     public function message(): array{

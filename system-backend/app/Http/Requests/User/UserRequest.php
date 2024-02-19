@@ -30,6 +30,9 @@ class UserRequest extends FormRequest
             //. operator also used as a ignore syntax
             'email' => 'required|email:rfc,dns|max:255|unique:users,email,' . $userId,
             'password' => 'required',
+            'code' => 'nullable',
+            'dob' => 'nullable|date',
+            'google_id' => 'nullable',
         ];
     }
     public function message(): array

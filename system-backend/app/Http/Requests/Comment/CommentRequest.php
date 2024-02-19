@@ -24,7 +24,8 @@ class CommentRequest extends FormRequest
         return [
             'description' => 'required',
             'user_id' => 'required',
-            'report_id' =>'required'
+            'report_id' =>'required',
+            'commented_date' => 'nullable'
         ];
     }
 }

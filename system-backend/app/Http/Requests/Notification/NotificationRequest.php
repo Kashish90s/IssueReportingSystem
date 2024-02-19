@@ -23,7 +23,11 @@ class NotificationRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'notification_date' => 'nullable|date',
+            'user_id' => 'nullable',
+            'report_id' => 'nullable',
+            'image_id' => 'nullable'
         ];
     }
     public function message(): array{
