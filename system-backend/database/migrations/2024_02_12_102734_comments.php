@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('description')->nullable();
             $table->date('commented_date')->nullable();
-            $table->foreignId('user_id')->constrained('users','id')->nullable();
-            $table->foreignId('report_id')->constrained('reports','id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users','id');
+            $table->foreignId('report_id')->nullable()->constrained('reports','id');
             $table->softDeletes();
             $table->timestamps();
         });

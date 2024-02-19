@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('image_holder')->nullable();
-            $table->foreignId('user_id')->constrained('users','id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users','id');
             $table->softDeletes();
             $table->timestamps();
         });
