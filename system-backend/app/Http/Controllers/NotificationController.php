@@ -52,9 +52,9 @@ class NotificationController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function delete($id){
+    public function delete($id, Notification $notification){
         try{
-            $notification =Notification::findorfail($id);
+            $notification =$notification->findorfail($id);
             $notification->delete();
             return null;
         }catch(Exception $e){
