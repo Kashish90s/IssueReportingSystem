@@ -63,19 +63,17 @@ class ReportController extends Controller
         }
     }
 
-    public function delete($id){
+    public function delete($id, Report $report){
         try{
-            $report =Report::findorfail($id);
-            $report->delete();
-            return null;
+            return $report->findorfail($id)->delete();
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
 
-    public function toggleIssueStatus($id){
+    public function toggleIssueStatus($id, Report $report){
         try{
-            $report = Report::findorfail($id);
+            $report = $report->findorfail($id);
             if($report->status == IssueStatus::Processing){
                $report->status = IssueStatus::Complete;
             }

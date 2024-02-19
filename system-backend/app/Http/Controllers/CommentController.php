@@ -49,11 +49,9 @@ class CommentController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function delete($id){
+    public function delete($id, Comment $comment){
         try{
-            $comment =Comment::findorfail($id);
-            $comment->delete();
-            return null;
+            return $comment->findorfail($id)->delete();
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }

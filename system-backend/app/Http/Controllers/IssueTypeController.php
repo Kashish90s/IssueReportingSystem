@@ -47,11 +47,9 @@ class IssueTypeController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function delete($id){
+    public function delete($id, IssueType $issueType){
         try{
-            $issueType =IssueType::findorfail($id);
-            $issueType->delete();
-            return null;
+            return $issueType->findorfail($id)->delete();
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }

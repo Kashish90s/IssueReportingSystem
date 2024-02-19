@@ -49,11 +49,9 @@ class LocationController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function delete($id){
+    public function delete($id, Location $location){
         try{
-            $location =Location::findorfail($id);
-            $location->delete();
-            return null;
+            return $location->findorfail($id)->delete();
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }

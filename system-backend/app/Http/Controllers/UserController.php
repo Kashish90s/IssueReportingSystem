@@ -55,18 +55,16 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function delete($id){
+    public function delete($id, User $user){
         try{
-            $user =User::findorfail($id);
-            $user->delete();
-            return null;
+            return $user->findorfail($id)->delete();
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function toggleStatus($id){
+    public function toggleStatus($id, User $user){
         try{
-            $user = User::findorfail($id);
+            $user = $user->findorfail($id);
             if($user->status == Status::Active){
                $user->status = Status::Inactive;
             }
@@ -79,9 +77,9 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function toggleFlagged($id){
+    public function toggleFlagged($id, User $user){
         try{
-            $user = User::findorfail($id);
+            $user =$user->findorfail($id);
             $user->flagged = !$user->flagged;
             $user->save();
             return response()->json([ApiStatus::Success,'Updated','user'=>$user],200);

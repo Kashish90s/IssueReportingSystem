@@ -64,11 +64,9 @@ class ImageController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function delete($id){
+    public function delete($id, Image $image){
         try{
-            $image =Image::findorfail($id);
-            $image->delete();
-            return null;
+            return $image->findorfail($id)->delete();
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
