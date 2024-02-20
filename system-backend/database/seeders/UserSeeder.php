@@ -22,12 +22,12 @@ class UserSeeder extends Seeder
 
             $user->name = $faker->name;
             $user->email = $faker->email;
-            $user->code = $faker->unique()->numerify;
+            $user->code = $faker->unique()->bothify('??##???###');
             $user->password = $faker->password;
             $user->dob = $faker->date($format = 'Y-m-d', $max = 'now');
             //     $user->type = $faker->numberBetween(0, 2);
             //     $user->status = $faker->numberBetween(0, 2);
-            $user->google_id = $faker->numerify;
+            $user->google_id = $faker->bothify('??##???###');
             $user->save();
         }
     }
