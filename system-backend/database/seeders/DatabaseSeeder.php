@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LocationSeeder::class,
             IssueTypeSeeder::class,
+            ReportSeeder::class,
         ]);
     }
 }
