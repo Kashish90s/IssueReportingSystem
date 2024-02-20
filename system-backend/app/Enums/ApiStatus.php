@@ -1,11 +1,7 @@
 <?php
 namespace App\Enums;
 use BenSampo\Enum\Enum;
-/**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
- */
+
 final class ApiStatus extends Enum {
     const Success = "S001";
     const Failure = "F001";
