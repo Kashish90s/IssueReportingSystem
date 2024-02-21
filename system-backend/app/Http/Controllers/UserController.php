@@ -87,4 +87,14 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+
+    public function userReports($id){
+        try{
+            $user = User::findOrFail($id);
+            $reports = $user->reports()->get();
+            return response()->json([ApiStatus::Success,'ALl reports of this user fetched','reports'=>$reports],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

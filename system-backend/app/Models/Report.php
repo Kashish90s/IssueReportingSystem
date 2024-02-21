@@ -22,4 +22,8 @@ class Report extends Model
         'image_id',
         'votes'
     ];
+
+    public function users(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

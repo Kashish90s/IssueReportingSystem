@@ -18,7 +18,7 @@ class NotificationSeeder extends Seeder
             $notification = new Notification();
 
             $notification->title = $faker->sentence;
-            $notification->description = $faker->text;
+            $notification->description = $faker->text(500);
             $notification->notification_date = $faker->date($format = 'Y-m-d', $max = 'now');
             $notification->user_id = $faker->numberBetween(1,20);
             $notification->report_id = $faker->numberBetween(1,20);
