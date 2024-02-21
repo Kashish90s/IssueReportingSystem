@@ -96,4 +96,14 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+
+    public function getComments($id){
+        try{
+            $report = Report::findOrFail($id);
+            $comment = $report->comments()->get();
+            return response()->json([ApiStatus::Success,'comments associated with this report fetched','comment'=>$comment],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }
