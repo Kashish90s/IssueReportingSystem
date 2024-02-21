@@ -88,7 +88,7 @@ class UserController extends Controller
         }
     }
 
-    public function userReports($id){
+    public function getReports($id){
         try{
             $user = User::findorfail($id);
             $reports = $user->reports()->get();
@@ -97,7 +97,7 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function userComments($id){
+    public function getComments($id){
         try{
             $user = User::findorfail($id);
             $comments = $user->comments()->get();
@@ -106,11 +106,20 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function userNotifications($id){
+    public function getNotifications($id){
         try{
             $user = User::findorfail($id);
             $notification = $user->notifications()->get();
             return response()->json([ApiStatus::Success,'All notification of this user fetched','notification'=>$notification],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function getImages($id){
+        try{
+            $user = User::findorfail($id);
+            $image = $user->images()->get();
+            return response()->json([ApiStatus::Success,'All image of this user fetched','image'=>$image],200);
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }

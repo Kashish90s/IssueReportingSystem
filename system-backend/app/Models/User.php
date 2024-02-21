@@ -41,6 +41,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 
 
     /**
