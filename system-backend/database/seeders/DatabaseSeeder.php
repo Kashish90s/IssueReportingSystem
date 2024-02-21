@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             IssueTypeSeeder::class,
             ImageSeeder::class,
             ReportSeeder::class,
+            CommentSeeder::class,
+            NotificationSeeder::class
         ]);
     }
 }
