@@ -59,4 +59,13 @@ class NotificationController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getNotificationUsers($id){
+        try{
+            $notification = Notification::findOrFail($id);
+            $users = $notification->user()->get();
+            return response()->json([ApiStatus::Success,'Users associated with this Notification fetched','users'=>$users],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

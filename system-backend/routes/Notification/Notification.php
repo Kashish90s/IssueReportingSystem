@@ -8,3 +8,4 @@ Route::post('/notification/update/{id}',[NotificationController::class, 'update'
 Route::get('/notification',[NotificationController::class, 'getAll']);
 Route::get('/notification/{id}',[NotificationController::class, 'getById']);
 Route::get('/notification/delete/{id}',[NotificationController::class, 'delete']);
+Route::get('/user/notificationUser/{id}',[NotificationController::class,'getNotificationUsers']);

@@ -56,4 +56,13 @@ class CommentController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getCommentUsers($id){
+        try{
+            $comment = Comment::findOrFail($id);
+            $users = $comment->user()->get();
+            return response()->json([ApiStatus::Success,'Users associated with this comment fetched','users'=>$users],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

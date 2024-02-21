@@ -71,4 +71,13 @@ class ImageController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getImageUsers($id){
+        try{
+            $image = Image::findOrFail($id);
+            $users = $image->user()->get();
+            return response()->json([ApiStatus::Success,'Users associated with this image fetched','users'=>$users],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

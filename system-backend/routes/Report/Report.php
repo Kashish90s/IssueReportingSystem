@@ -9,3 +9,4 @@ Route::get('/report',[ReportController::class, 'getAll']);
 Route::get('/report/{id}',[ReportController::class, 'getById']);
 Route::get('/report/delete/{id}',[ReportController::class, 'delete']);
 Route::get('/report/toggleIssueStatus/{id}',[ReportController::class, 'delete']);
+Route::get('/user/reportUser/{id}',[ReportController::class,'getReportUsers']);

@@ -86,4 +86,14 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+
+    public function getReportUsers($id){
+        try{
+            $report = Report::findOrFail($id);
+            $users = $report->user()->get();
+            return response()->json([ApiStatus::Success,'Users associated with this report fetched','users'=>$users],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

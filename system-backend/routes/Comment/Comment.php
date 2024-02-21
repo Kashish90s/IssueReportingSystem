@@ -8,3 +8,4 @@ Route::post('/comment/update/{id}',[CommentController::class, 'update']);
 Route::get('/comment',[CommentController::class, 'getAll']);
 Route::get('/comment/{id}',[CommentController::class, 'getById']);
 Route::get('/comment/delete/{id}',[CommentController::class, 'delete']);
+Route::get('/user/commentUser/{id}',[CommentController::class,'getCommentUsers']);
