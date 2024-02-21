@@ -13,3 +13,4 @@ Route::get('/user/reportUser/{id}',[ReportController::class,'getReportUsers']);
 Route::get('/user/reportComment/{id}',[ReportController::class,'getComments']);
 Route::get('/user/reportLocation/{id}',[ReportController::class,'getLocation']);
 Route::get('/user/reportIssueType/{id}',[ReportController::class,'getIssueType']);
+Route::get('/user/reportImage/{id}',[ReportController::class,'getImage']);

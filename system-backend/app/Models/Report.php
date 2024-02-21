@@ -36,5 +36,8 @@ class Report extends Model
     public function issueType(){
         return $this->belongsTo(IssueType::class,'issue_type');
     }
+    public function image(){
+        return $this->belongsTo(Image::class,'image_id');
+    }
 
 }

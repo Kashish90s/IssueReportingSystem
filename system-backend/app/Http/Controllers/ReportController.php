@@ -124,4 +124,13 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getImage($id){
+        try{
+            $report = Report::findOrFail($id);
+            $image = $report->image()->get();
+            return response()->json([ApiStatus::Success,'image associated with this report fetched','image'=>$image],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }
