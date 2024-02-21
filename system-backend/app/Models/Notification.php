@@ -19,4 +19,8 @@ class Notification extends Model
         'report_id',
         'image_id'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

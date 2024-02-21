@@ -90,9 +90,27 @@ class UserController extends Controller
 
     public function userReports($id){
         try{
-            $user = User::findOrFail($id);
+            $user = User::findorfail($id);
             $reports = $user->reports()->get();
-            return response()->json([ApiStatus::Success,'ALl reports of this user fetched','reports'=>$reports],200);
+            return response()->json([ApiStatus::Success,'All reports of this user fetched','reports'=>$reports],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function userComments($id){
+        try{
+            $user = User::findorfail($id);
+            $comments = $user->comments()->get();
+            return response()->json([ApiStatus::Success,'All comments of this user fetched','comments'=>$comments],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function userNotifications($id){
+        try{
+            $user = User::findorfail($id);
+            $notification = $user->notifications()->get();
+            return response()->json([ApiStatus::Success,'All notification of this user fetched','notification'=>$notification],200);
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
