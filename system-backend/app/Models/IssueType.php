@@ -15,4 +15,8 @@ class IssueType extends Model
         'title',
         'description'
     ];
+
+    public function report(){
+        return $this->hasOne(Report::class);
+    }
 }

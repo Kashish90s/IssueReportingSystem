@@ -106,4 +106,22 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getLocation($id){
+        try{
+            $report = Report::findOrFail($id);
+            $location = $report->location()->get();
+            return response()->json([ApiStatus::Success,'locations associated with this report fetched','location'=>$location],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
+    public function getIssueType($id){
+        try{
+            $report = Report::findOrFail($id);
+            $issue_type = $report->issueType()->get();
+            return response()->json([ApiStatus::Success,'issue_type associated with this report fetched','issue_type'=>$issue_type],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

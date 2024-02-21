@@ -16,4 +16,8 @@ class Location extends Model
         'ward',
         'zip_code'
     ];
+
+    public function report(){
+        return $this->hasOne(Report::class);
+    }
 }

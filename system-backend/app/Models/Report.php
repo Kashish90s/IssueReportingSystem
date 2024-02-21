@@ -30,4 +30,11 @@ class Report extends Model
     public function comments(){
         return $this->hasMany(Comment::class);
     }
+    public function location(){
+        return $this->belongsTo(Location::class,'location_id');
+    }
+    public function issueType(){
+        return $this->belongsTo(IssueType::class,'issue_type');
+    }
+
 }
