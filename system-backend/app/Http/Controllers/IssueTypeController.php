@@ -54,4 +54,14 @@ class IssueTypeController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+
+    public function getIssueTypeReport($id){
+        try{
+            $issueType = IssueType::findOrFail($id);
+            $reports = $issueType->report()->get();
+            return response()->json([ApiStatus::Success,'Report associated with this issueType fetched','reports'=>$reports],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

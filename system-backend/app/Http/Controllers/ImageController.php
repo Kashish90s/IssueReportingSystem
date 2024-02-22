@@ -80,4 +80,13 @@ class ImageController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getImageReport($id){
+        try{
+            $image = Image::findOrFail($id);
+            $reports = $image->report()->get();
+            return response()->json([ApiStatus::Success,'report associated with this image fetched','reports'=>$reports],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

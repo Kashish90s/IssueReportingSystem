@@ -23,7 +23,7 @@ class ReportSeeder extends Seeder
             $report->user_id = $faker->numberBetween(1,20);
             $report->location_id = $faker->numberBetween(1,20);
             $report->issue_type = $faker->numberBetween(1,20);
-            // $report->image_id = $faker->numberBetween(1,20);
+            $report->image_id = $i;
             $report->votes = $faker->randomNumber;
             $report->save();
         }

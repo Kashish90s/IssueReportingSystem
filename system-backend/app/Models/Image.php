@@ -20,6 +20,6 @@ class Image extends Model
         return $this->belongsTo(User::class,'user_id');
     }
     public function report(){
-        return $this->hasOne(Report::class,'report_id');
+        return $this->hasOne(Report::class);
     }
 }
