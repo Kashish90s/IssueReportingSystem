@@ -56,4 +56,13 @@ class LocationController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getLocationReport($id){
+        try{
+            $location = Location::findOrFail($id);
+            $reports = $location->report()->get();
+            return response()->json([ApiStatus::Success,'Report associated with this location fetched','reports'=>$reports],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

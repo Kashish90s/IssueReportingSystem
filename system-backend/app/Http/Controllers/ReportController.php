@@ -133,4 +133,13 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getNotification($id){
+        try{
+            $report = Report::findOrFail($id);
+            $notification = $report->notification()->get();
+            return response()->json([ApiStatus::Success,'notification associated with this report fetched','notification'=>$notification],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

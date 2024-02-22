@@ -8,3 +8,4 @@ Route::post('/location/update/{id}',[LocationController::class, 'update']);
 Route::get('/location',[LocationController::class, 'getAll']);
 Route::get('/location/{id}',[LocationController::class, 'getById']);
 Route::get('/location/delete/{id}',[LocationController::class, 'delete']);
+Route::get('/location/locationReport/{id}',[LocationController::class,'getLocationReport']);

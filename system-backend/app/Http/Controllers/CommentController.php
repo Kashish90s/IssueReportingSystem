@@ -65,4 +65,13 @@ class CommentController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getCommentReport($id){
+        try{
+            $comment = Comment::findOrFail($id);
+            $reports = $comment->report()->get();
+            return response()->json([ApiStatus::Success,'Report associated with this comment fetched','reports'=>$reports],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }
