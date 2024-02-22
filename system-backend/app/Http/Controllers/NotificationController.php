@@ -77,4 +77,13 @@ class NotificationController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function getImage($id){
+        try{
+            $notification = Notification::findOrFail($id);
+            $image = $notification->image()->get();
+            return response()->json([ApiStatus::Success,'Image associated with this Notification fetched','image'=>$image],200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+        }
+    }
 }

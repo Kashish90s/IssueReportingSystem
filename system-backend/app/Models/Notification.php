@@ -26,4 +26,7 @@ class Notification extends Model
     public function report(){
         return $this->belongsTo(Report::class,'report_id');
     }
+    public function image(){
+        return $this->belongsTo(Image::class,'image_id');
+    }
 }

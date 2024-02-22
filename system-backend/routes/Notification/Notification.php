@@ -10,4 +10,5 @@ Route::get('/notification/{id}',[NotificationController::class, 'getById']);
 Route::get('/notification/delete/{id}',[NotificationController::class, 'delete']);
 Route::get('/notification/notificationUser/{id}',[NotificationController::class,'getNotificationUsers']);
 Route::get('/notification/notificationReport/{id}',[NotificationController::class,'getNotificationReport']);
+Route::get('/notification/notificationImage/{id}',[NotificationController::class,'getImage']);
 
