@@ -1,12 +1,17 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+// tailwind.config.js
+module.exports = {
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.jsx",
     ],
     theme: {
-        extend: {},
+        extend: {
+
+            fontFamily: {
+                poppins: ["Poppins", "sans-serif"],
+            },
+        },
     },
     plugins: [],
 };
