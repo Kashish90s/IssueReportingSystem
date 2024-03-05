@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 
@@ -9,7 +8,7 @@ export default function GuestLayout() {
     return <Navigate to="/" />;
   }
   return (
-    <div>
+    <div id="guestLayout">
       <Outlet />
     </div>
   );
