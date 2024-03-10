@@ -28,13 +28,14 @@ export default function DefaultLayout() {
   return (
     <div id="defaultLayout">
       <aside>
+        <img src="" alt="Logo" />
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/users">Users</Link>
+        <Link to="/users">Profile</Link>
       </aside>
       <div className="content">
         <header>
-          <div>Header</div>
-
+          <div>Hamro Neighborhood</div>
           <div>
             {user.name} &nbsp; &nbsp;
             <a onClick={onLogout} className="btn-logout" href="#">
