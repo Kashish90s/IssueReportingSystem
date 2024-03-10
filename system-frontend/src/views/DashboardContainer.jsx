@@ -12,8 +12,12 @@ export default function DashboardContainer() {
           src="https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg"
           alt="Image"
         />
-        <div className="description">description</div>
-        <div>comments Upvote</div>
+        <div className="vote">
+          <span>comments</span>
+          <span> Upvote</span>
+        </div>
+        <div className="description">@user: description</div>
+        <div className="date">date: Today</div>
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import { Link, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axios-client.js";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function DefaultLayout() {
   const { user, token, setUser, setToken, notification } = useStateContext();
@@ -28,16 +30,24 @@ export default function DefaultLayout() {
   return (
     <div id="defaultLayout">
       <aside>
-        <img src="" alt="Logo" />
+        <div className="profile">
+          <div className="profile-picture">
+            <FontAwesomeIcon icon={faUser} className="logo" />
+            {/* <img
+              src="https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg"
+              alt="User profile"
+              className="image"
+            /> */}
+          </div>
+          <div className="user-name">{user.name} &nbsp; &nbsp;</div>
+        </div>
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/users">Users</Link>
-        <Link to="/users">Profile</Link>
       </aside>
       <div className="content">
         <header>
-          <div>Hamro Neighborhood</div>
+          <div className="company">Hamro Neighborhood</div>
           <div>
-            {user.name} &nbsp; &nbsp;
             <a onClick={onLogout} className="btn-logout" href="#">
               Logout
             </a>

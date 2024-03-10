@@ -233,7 +233,33 @@ table > tbody > tr > td {
     -webkit-animation-name: fadeInDown;
     animation-name: fadeInDown;
 }
-
+.profile{   
+    padding: 1rem;
+    height: 9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    /* box-shadow: 5px 5px 5px black; */
+}
+.logo{
+    height: 3rem;    
+}
+.image{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}
+.user-name{
+    font-size: smaller;
+    font-weight: 300;
+}
+.company{
+    font-size:x-large;
+    font-weight: 900;
+    color:  #145388;
+}
 @keyframes fadeInDown {
     0% {
         opacity: 0;
@@ -243,4 +269,5 @@ table > tbody > tr > td {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
