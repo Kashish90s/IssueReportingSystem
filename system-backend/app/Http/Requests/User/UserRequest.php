@@ -24,11 +24,10 @@ class UserRequest extends FormRequest
     {
         $userId = $this->route('user');
         return [
-            'name' => 'required',
             //RFC 5322 standard for email addresses
             // 'email' => 'required|email:rfc,dns','max:255',Rule::unique('users')->ignore($userId),
             //. operator also used as a ignore syntax
-            'email' => 'required|email:rfc,dns|max:255|unique:users,email,' . $userId,
+            'email' => 'required|email:rfc,dns|max:255|unique:users,email,'.$this->id,
             'password' => 'required',
             'code' => 'nullable',
             'dob' => 'nullable|date',
