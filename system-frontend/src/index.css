@@ -252,8 +252,10 @@ table > tbody > tr > td {
     border-radius: 50%;
 }
 .user-name{
-    font-size: smaller;
+    font-size: 15px;
     font-weight: 300;
+    padding-top: 15px;
+
 }
 .company{
     font-size:x-large;

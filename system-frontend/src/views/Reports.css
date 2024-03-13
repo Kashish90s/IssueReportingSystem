@@ -2,21 +2,21 @@
     margin: 0;
     padding: 0;
 }
-.dashboard{
+.Reports{
     display: flex;
     justify-content: left;
-
     flex-wrap: wrap;
 }
 
 .container{
-    margin: 10px 10px 10px 0;
+    margin: 15px 30px 10px 0;
     background-color: white; 
-    width: 15rem;  
-    height: 18rem;
-    padding: 1rem;
+    width: 18rem;  
+    height: 25rem;
+    padding: 1rem 1rem 0;
     border-radius: 5%;
     box-shadow: 0 1px 3px rgb(163, 162, 162);
+    position: relative;
 }
 .image-holder{
     display: block;
@@ -32,14 +32,41 @@
     text-overflow: ellipsis; /* Display ellipsis (...) for overflow */
     font-weight: bold;
     height: 2rem;
-    padding-bottom: 3px;
+    padding-bottom: 45px;
+    max-height: 45px;
 }
 .vote{
     display: flex;
     justify-content: space-between;
+    font-size: smaller;
 }
-.vote,.description, .date{
+.vote,.description{
     padding-top: 5px;
     padding-left: 5px;
     padding-right: 5px;
 }
+.date-status{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    font-size: smaller;
+    position: absolute;
+    bottom: 0;
+    width: 90%; 
+    padding: 10px;
+}
+.date .status{
+    position: absolute;
+    bottom: 0;
+}
+.description{
+    font-size:xx-small;
+    max-height: 5.5rem;
+    overflow: hidden;
+    text-align: justify;
+    
+}
+img{
+    object-fit: cover;
+}
+
