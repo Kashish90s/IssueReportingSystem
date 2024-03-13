@@ -10,9 +10,9 @@ export default function Reports() {
 
   useEffect(() => {
     if (!report || report.length === 0) {
-      getReports(); // Fetch reports if not already present in context
+      getReports();
     }
-  }, [report]); // Add report to dependency array to avoid refetching
+  }, [report]);
 
   const getReports = () => {
     setLoading(true);
@@ -20,7 +20,7 @@ export default function Reports() {
       .get("/report")
       .then(({ data }) => {
         setLoading(false);
-        setReport(data.report); // Update the report in the context
+        setReport(data.report);
       })
       .catch(() => {
         setLoading(false);

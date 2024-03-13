@@ -1,3 +1,5 @@
+import { formatNumber } from "../utility/NumberFormatter";
+
 export default function ReportContainer({ report }) {
   // Create a Date object from the timestamp
   const date = new Date(report.created_at);
@@ -17,14 +19,14 @@ export default function ReportContainer({ report }) {
         />
         <div className="vote">
           <span>comments</span>
-          <span className="upvote-button">{report.votes}</span>
+          <span className="upvote-button">{formatNumber(report.votes)}</span>
         </div>
         <div className="description">@user: {report.description}</div>
         <div className="date-status">
+          <span className="status">Status: Pending</span>
           <span className="date">
             {extractedDate} {extractedTime}
           </span>
-          <span className="status">Status: Pending</span>
         </div>
       </div>
     </div>
