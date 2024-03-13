@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Reports.css";
 import ReportContainer from "./ReportContainer";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../context/ContextProvider";
+import { IssueType } from "../constant/constant";
 
 export default function Reports() {
   const { report, setReport } = useStateContext();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!report || report.length === 0) {
@@ -19,8 +20,15 @@ export default function Reports() {
     axiosClient
       .get("/report")
       .then(({ data }) => {
+        // Map the issue_status to the corresponding label
+        const reports = data.report.map((item) => ({
+          ...item,
+          issue_label:
+            IssueType.find((type) => type.value === item.issue_status)?.label ||
+            "Unknown",
+        }));
         setLoading(false);
-        setReport(data.report);
+        setReport(reports);
       })
       .catch(() => {
         setLoading(false);
@@ -35,17 +43,13 @@ export default function Reports() {
           <p>Loading reports...</p>
         ) : (
           report &&
-          report.map(
-            (
-              reportItem // Ensure report is not null before mapping
-            ) => (
-              <ReportContainer
-                key={reportItem.id}
-                className="Reports-item"
-                report={reportItem}
-              />
-            )
-          )
+          report.map((item) => (
+            <ReportContainer
+              key={item.id}
+              className="Reports-item"
+              report={item}
+            />
+          ))
         )}
       </div>
     </div>

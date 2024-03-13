@@ -23,7 +23,7 @@ export default function ReportContainer({ report }) {
         </div>
         <div className="description">@user: {report.description}</div>
         <div className="date-status">
-          <span className="status">Status: Pending</span>
+          <span className="status">{report.issue_label}</span>
           <span className="date">
             {extractedDate} {extractedTime}
           </span>
