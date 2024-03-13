@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./Reports.css";
 import ReportContainer from "./ReportContainer";
 import axiosClient from "../axios-client";
+import { useStateContext } from "../context/ContextProvider";
 
 export default function Reports() {
-  const [report, setReport] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { report, setReport } = useStateContext();
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
-    getReports();
-  }, []);
+    if (!report || report.length === 0) {
+      getReports(); // Fetch reports if not already present in context
+    }
+  }, [report]); // Add report to dependency array to avoid refetching
 
   const getReports = () => {
     setLoading(true);
@@ -17,8 +20,7 @@ export default function Reports() {
       .get("/report")
       .then(({ data }) => {
         setLoading(false);
-        setReport(data.report);
-        console.log(data.report);
+        setReport(data.report); // Update the report in the context
       })
       .catch(() => {
         setLoading(false);
@@ -32,13 +34,18 @@ export default function Reports() {
         {loading ? (
           <p>Loading reports...</p>
         ) : (
-          report.map((reportItem) => (
-            <ReportContainer
-              key={reportItem.id}
-              className="Reports-item"
-              report={reportItem}
-            />
-          ))
+          report &&
+          report.map(
+            (
+              reportItem // Ensure report is not null before mapping
+            ) => (
+              <ReportContainer
+                key={reportItem.id}
+                className="Reports-item"
+                report={reportItem}
+              />
+            )
+          )
         )}
       </div>
     </div>

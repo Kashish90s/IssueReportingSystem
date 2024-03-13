@@ -39,7 +39,6 @@ export default function DefaultLayout() {
               className="image"
             /> */}
           </div>
-          {console.log(user)}
           <div className="user-name">{user.name} &nbsp; &nbsp;</div>
         </div>
         <Link to="/Home">Home</Link>
