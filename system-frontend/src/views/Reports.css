@@ -41,7 +41,7 @@
     font-size: smaller;
 }
 .vote,.description{
-    padding-top: 5px;
+    padding-top: 1px;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -52,8 +52,8 @@
     font-size: smaller;
     position: absolute;
     bottom: 0;
-    width: 90%; 
-    padding: 10px;
+    width: 88%; 
+    /* padding: 10px; */
 }
 .date .status{
     position: absolute;
@@ -61,12 +61,15 @@
 }
 .description{
     font-size:xx-small;
-    max-height: 5.5rem;
+    max-height: 5rem;
     overflow: hidden;
     text-align: justify;
     
 }
 img{
     object-fit: cover;
+}
+.date{
+    color: gray;
 }
 

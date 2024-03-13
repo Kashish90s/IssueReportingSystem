@@ -1,4 +1,11 @@
 export default function ReportContainer({ report }) {
+  // Create a Date object from the timestamp
+  const date = new Date(report.created_at);
+
+  // Extract the date and time
+  const extractedDate = date.toISOString().split("T")[0]; // "2024-03-12"
+  const extractedTime = date.toISOString().split("T")[1].split(".")[0]; // "16:05:29"
+
   return (
     <div>
       <div className="container">
@@ -10,12 +17,14 @@ export default function ReportContainer({ report }) {
         />
         <div className="vote">
           <span>comments</span>
-          <span className="upvote-button">button</span>
+          <span className="upvote-button">{report.votes}</span>
         </div>
-        <div className="description">@user: Lorem</div>
+        <div className="description">@user: {report.description}</div>
         <div className="date-status">
-          <span className="date">date:</span>
-          <span className="status">Status:</span>
+          <span className="date">
+            {extractedDate} {extractedTime}
+          </span>
+          <span className="status">Status: Pending</span>
         </div>
       </div>
     </div>

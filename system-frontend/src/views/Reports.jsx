@@ -29,13 +29,17 @@ export default function Reports() {
     <div>
       <div>Sorting: Recent | Most Popular | Completed</div>
       <div className="Reports">
-        {report.map((item) => (
-          <ReportContainer
-            key={item.id}
-            className=" Reports-item"
-            report={item}
-          />
-        ))}
+        {loading ? (
+          <p>Loading reports...</p>
+        ) : (
+          report.map((reportItem) => (
+            <ReportContainer
+              key={reportItem.id}
+              className="Reports-item"
+              report={reportItem}
+            />
+          ))
+        )}
       </div>
     </div>
   );
