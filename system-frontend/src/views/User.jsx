@@ -118,14 +118,14 @@ export default function User() {
         </table>
         <div style={{ textAlign: "center", padding: "20px" }}>
           <span
-            style={{ padding: "0.2rem 0.5rem" }}
+            style={{ padding: "0.2rem 0.5rem", cursor: "pointer" }}
             className="btn-logout"
             onClick={previousPage}
           >
             {"<<"}Previous
           </span>{" "}
           <span
-            style={{ padding: "0.2rem 0.5rem" }}
+            style={{ padding: "0.2rem 0.5rem", cursor: "pointer" }}
             className="btn-logout"
             onClick={nextPage}
           >

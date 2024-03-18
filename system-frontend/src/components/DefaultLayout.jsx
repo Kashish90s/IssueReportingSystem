@@ -1,7 +1,7 @@
 import { Link, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axios-client.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { IssueType } from "../constant/constant.jsx";
@@ -10,34 +10,36 @@ export default function DefaultLayout() {
   const { user, token, setUser, setToken, report, setReport, setLoading } =
     useStateContext();
 
+
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
       setUser(data);
     });
-    if (!report || report.length === 0) {
-      getReports();
-    }
+    // if (!report || report.length === 0) {
+    //   getReports();
+    // }
   }, []);
 
-  const getReports = () => {
-    setLoading(true);
-    axiosClient
-      .get("/report")
-      .then(({ data }) => {
-        // Map the issue_status to the corresponding label
-        const reports = data.report.map((item) => ({
-          ...item,
-          issue_label:
-            IssueType.find((type) => type.value === item.issue_status)?.label ||
-            "Unknown",
-        }));
-        setLoading(false);
-        setReport(reports);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
+  // const getReports = () => {
+  //   setLoading(true);
+  //   axiosClient
+  //     .get(`/report?page=${count}`)
+  //     .then(({ data }) => {
+  //       // Map the issue_status to the corresponding label
+  //       console.log(data);
+  //       const reports = data.report.data.map((item) => ({
+  //         ...item,
+  //         issue_label:
+  //           IssueType.find((type) => type.value === item.issue_status)?.label ||
+  //           "Unknown",
+  //       }));
+  //       setLoading(false);
+  //       setReport(reports);
+  //     })
+  //     .catch(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
   if (!token) {
     return <Navigate to="/login" />;
@@ -51,7 +53,7 @@ export default function DefaultLayout() {
       setToken(null);
     });
   };
-
+  console.log(report);
   return (
     <div id="defaultLayout">
       <aside>
