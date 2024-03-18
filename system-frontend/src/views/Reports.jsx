@@ -7,7 +7,11 @@ export default function Reports() {
 
   return (
     <div>
-      <div>Sorting: Recent | Most Popular | Completed</div>
+      <div>
+        Filter: <span className="btn-filter ">Recent</span> |{" "}
+        <span className="btn-filter ">Most Popular</span> |
+        <span className="btn-filter ">Completed</span>
+      </div>
       <div className="Reports">
         {loading ? (
           <p>Loading reports...</p>

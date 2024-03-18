@@ -9,20 +9,38 @@ import { IssueType } from "../constant/constant.jsx";
 export default function DefaultLayout() {
   const {
     user,
+    users,
     token,
     setUser,
+    setUsers,
     setToken,
-    notification,
     report,
     setReport,
     setLoading,
   } = useStateContext();
 
   useEffect(() => {
+    axiosClient.get("/user").then(({ data }) => {
+      setUser(data);
+    });
     if (!report || report.length === 0) {
       getReports();
     }
-  }, [report]);
+    getUsers();
+  }, []);
+
+  const getUsers = () => {
+    setLoading(true);
+    axiosClient
+      .get("/users")
+      .then(({ data }) => {
+        setLoading(false);
+        setUsers(data.user);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   const getReports = () => {
     setLoading(true);
@@ -56,12 +74,6 @@ export default function DefaultLayout() {
       setToken(null);
     });
   };
-
-  useEffect(() => {
-    axiosClient.get("/user").then(({ data }) => {
-      setUser(data);
-    });
-  }, []);
 
   return (
     <div id="defaultLayout">

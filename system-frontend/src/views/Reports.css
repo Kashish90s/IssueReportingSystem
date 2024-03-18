@@ -74,3 +74,21 @@ img{
     font-size: 8px;
 }
 
+.btn-filter {
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    color: #212121;
+    transition: all 0.3s;
+    border-radius: 6px;
+}
+.btn-filter:hover {
+    background-color: #145388;
+    color: white;
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+    background:  #145388;
+}
+
