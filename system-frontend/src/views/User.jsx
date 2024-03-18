@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../context/ContextProvider";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
+import { UserStatus } from "../constant/constant";
 
 export default function User() {
   const { users, setUsers } = useStateContext();
@@ -18,7 +19,13 @@ export default function User() {
       .get(`/users?page=${count}`)
       .then(({ data }) => {
         setLoading(false);
-        setUsers(data.user.data);
+        const newUsers = data.user.data.map((item) => ({
+          ...item,
+          status_label:
+            UserStatus.find((type) => type.value === item.status)?.label ||
+            "Unknown",
+        }));
+        setUsers(newUsers);
       })
       .catch(() => {
         setLoading(false);
@@ -32,7 +39,21 @@ export default function User() {
   };
   const nextPage = () => {
     setCount(count + 1);
-    console.log(count);
+  };
+
+  const checkStatus = (status) => {
+    if (status === "Active") {
+      return { color: "lime", textShadow: "0 1px black" };
+    } else {
+      return { color: "salmon", textShadow: "0 1px black" };
+    }
+  };
+
+  const toggleStatus = (id, event) => {
+    event.preventDefault();
+    axiosClient.post(`/user/toggleStatus/${id}`).then(() => {
+      getUsers();
+    });
   };
 
   return (
@@ -76,10 +97,18 @@ export default function User() {
                   <td>{u.name}</td>
                   <td>{u.email}</td>
                   <td>{u.dob}</td>
-                  <td>{u.status}</td>
+                  <td
+                    style={{
+                      ...checkStatus(u.status_label),
+                      cursor: "pointer",
+                    }}
+                    onClick={(event) => toggleStatus(u.id, event)}
+                  >
+                    {u.status_label}
+                  </td>
+
                   <td>
                     <Link className="btn-edit">Edit</Link>  &nbsp;
-                    <button className="btn-delete">Flag</button>  &nbsp;
                     <button className="btn-delete">Delete</button>
                   </td>
                 </tr>
@@ -88,20 +117,20 @@ export default function User() {
           )}
         </table>
         <div style={{ textAlign: "center", padding: "20px" }}>
-          <Link
+          <span
             style={{ padding: "0.2rem 0.5rem" }}
             className="btn-logout"
             onClick={previousPage}
           >
             {"<<"}Previous
-          </Link>{" "}
-          <Link
+          </span>{" "}
+          <span
             style={{ padding: "0.2rem 0.5rem" }}
             className="btn-logout"
             onClick={nextPage}
           >
             Next Page{">>"}
-          </Link>
+          </span>
         </div>
       </div>
     </div>

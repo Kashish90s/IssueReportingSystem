@@ -23,3 +23,13 @@ export const IssueType = [
     value: 1,
   },
 ];
+export const UserStatus = [
+  {
+    label: "Active",
+    value: 1,
+  },
+  {
+    label: "Inactive",
+    value: 0,
+  },
+];

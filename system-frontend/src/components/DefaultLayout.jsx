@@ -7,16 +7,8 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { IssueType } from "../constant/constant.jsx";
 
 export default function DefaultLayout() {
-  const {
-    user,
-    token,
-    setUser,
-    setUsers,
-    setToken,
-    report,
-    setReport,
-    setLoading,
-  } = useStateContext();
+  const { user, token, setUser, setToken, report, setReport, setLoading } =
+    useStateContext();
 
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
@@ -25,21 +17,7 @@ export default function DefaultLayout() {
     if (!report || report.length === 0) {
       getReports();
     }
-    // getUsers();
   }, []);
-
-  // const getUsers = () => {
-  //   setLoading(true);
-  //   axiosClient
-  //     .get("/users?page=3")
-  //     .then(({ data }) => {
-  //       setLoading(false);
-  //       setUsers(data.user);
-  //     })
-  //     .catch(() => {
-  //       setLoading(false);
-  //     });
-  // };
 
   const getReports = () => {
     setLoading(true);
