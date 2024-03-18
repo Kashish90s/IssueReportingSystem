@@ -12,9 +12,15 @@ export default function Reports() {
         <span className="btn-filter ">Most Popular</span> |
         <span className="btn-filter ">Completed</span>
       </div>
-      <div className="Reports">
+      <div className="Reports animated fadeInDown">
         {loading ? (
-          <p>Loading reports...</p>
+          <table>
+            <tbody>
+              <tr>
+                <td className="text-center">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
         ) : (
           report &&
           report.map((item) => (

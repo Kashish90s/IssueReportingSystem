@@ -9,7 +9,6 @@ import { IssueType } from "../constant/constant.jsx";
 export default function DefaultLayout() {
   const {
     user,
-    users,
     token,
     setUser,
     setUsers,
@@ -26,21 +25,21 @@ export default function DefaultLayout() {
     if (!report || report.length === 0) {
       getReports();
     }
-    getUsers();
+    // getUsers();
   }, []);
 
-  const getUsers = () => {
-    setLoading(true);
-    axiosClient
-      .get("/users")
-      .then(({ data }) => {
-        setLoading(false);
-        setUsers(data.user);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
+  // const getUsers = () => {
+  //   setLoading(true);
+  //   axiosClient
+  //     .get("/users?page=3")
+  //     .then(({ data }) => {
+  //       setLoading(false);
+  //       setUsers(data.user);
+  //     })
+  //     .catch(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
   const getReports = () => {
     setLoading(true);
