@@ -1,0 +1,12 @@
+.display-counter{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+.home-report{
+    display: flex;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center
+
+}

@@ -87,7 +87,8 @@ export default function Reports() {
           onClick={previousPage}
         >
           {"<<"}Previous
-        </span>{" "}
+        </span>
+        <span>{count}</span>
         <span
           style={{ padding: "0.2rem 0.5rem", cursor: "pointer" }}
           className="btn-logout"

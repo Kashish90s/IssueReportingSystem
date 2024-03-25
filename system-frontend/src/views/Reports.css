@@ -91,4 +91,7 @@ img{
 .btn:focus {
     background:  #145388;
 }
+.like{
+    padding-right: 5px;
+}
 

@@ -3,6 +3,8 @@ import { useStateContext } from "../context/ContextProvider";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { UserStatus } from "../constant/constant";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function User() {
   const { users, setUsers } = useStateContext();
@@ -108,8 +110,13 @@ export default function User() {
                   </td>
 
                   <td>
-                    <Link className="btn-edit">Edit</Link>  &nbsp;
-                    <button className="btn-delete">Delete</button>
+                    <Link className="btn-edit">
+                      <FontAwesomeIcon icon={faPenToSquare} />
+                    </Link>
+                      &nbsp;
+                    <button className="btn-delete">
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -123,7 +130,8 @@ export default function User() {
             onClick={previousPage}
           >
             {"<<"}Previous
-          </span>{" "}
+          </span>
+          <span>{count}</span>
           <span
             style={{ padding: "0.2rem 0.5rem", cursor: "pointer" }}
             className="btn-logout"

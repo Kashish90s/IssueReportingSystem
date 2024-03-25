@@ -1,4 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatNumber } from "../utility/NumberFormatter";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function ReportContainer({ report }) {
   // Create a Date object from the timestamp
@@ -19,7 +21,10 @@ export default function ReportContainer({ report }) {
         />
         <div className="vote">
           <span>comments</span>
-          <span className="upvote-button">{formatNumber(report.votes)}</span>
+          <span className="upvote-button">
+            <FontAwesomeIcon icon={faHeart} className="like" />
+            {formatNumber(report.votes)}
+          </span>
         </div>
         <div className="description">
           @{report.user.name}: {report.description}
