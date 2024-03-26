@@ -13,7 +13,7 @@ class ReportController extends Controller
     public function getAll()
     {
         try{
-            $report = Report::all();
+            $report = Report::with('user')->orderBy('id','desc')->paginate(12);
             return response()->json([ApiStatus::Success,'All report data fetched','report'=>$report],200);
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);

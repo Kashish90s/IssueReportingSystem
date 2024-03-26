@@ -78,7 +78,9 @@ export default function User() {
         }}
       >
         <h1>Users</h1>
-        <Link className="btn-add">Add new</Link>
+        <Link to={"/users/new"} className="btn-add">
+          Add new
+        </Link>
       </div>
       <div className="card animated fadeInDown">
         <table>
@@ -88,6 +90,7 @@ export default function User() {
               <th>Name</th>
               <th>Email</th>
               <th>Dob</th>
+              <th>Created at</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -108,6 +111,7 @@ export default function User() {
                   <td>{u.id}</td>
                   <td>{u.name}</td>
                   <td>{u.email}</td>
+                  <td>{u.created_at}</td>
                   <td>{u.dob}</td>
                   <td
                     style={{
@@ -120,7 +124,7 @@ export default function User() {
                   </td>
 
                   <td>
-                    <Link className="btn-edit">
+                    <Link to={"/users/" + u.id} className="btn-edit">
                       <FontAwesomeIcon icon={faPenToSquare} />
                     </Link>
                       &nbsp;

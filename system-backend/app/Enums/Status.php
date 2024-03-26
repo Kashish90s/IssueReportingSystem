@@ -11,7 +11,6 @@ use BenSampo\Enum\Enum;
  */
 final class Status extends Enum
 {
-    const Pending = 0;
     const Active = 1;
-    const Inactive = 2;
+    const Inactive = 0;
 }

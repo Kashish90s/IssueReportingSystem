@@ -27,8 +27,6 @@ export default function Reports() {
     axiosClient
       .get(`/report?page=${count}`)
       .then(({ data }) => {
-        // Map the issue_status to the corresponding label
-        console.log(data);
         const reports = data.report.data.map((item) => ({
           ...item,
           issue_label:
@@ -42,7 +40,6 @@ export default function Reports() {
         setLoading(false);
       });
   };
-
   return (
     <div>
       <div

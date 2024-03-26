@@ -9,6 +9,7 @@ export default function ReportContainer({ report }) {
   // Extract the date and time
   const extractedDate = date.toISOString().split("T")[0]; // "2024-03-12"
   const extractedTime = date.toISOString().split("T")[1].split(".")[0]; // "16:05:29"
+  // console.log(report.user.name);
 
   return (
     <div>
@@ -27,7 +28,7 @@ export default function ReportContainer({ report }) {
           </span>
         </div>
         <div className="description">
-          @{report.user.name}: {report.description}
+          @{report.user?.name}: {report.description}
         </div>
         <div className="date-status">
           <span className="status">{report.issue_label}</span>

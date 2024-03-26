@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function getAll(){
         try{
-            $user = User::all();
+            $user = User::query()->orderBy('id','desc')->paginate(15);
             return response()->json([ApiStatus::Success,'All data fetched','user'=>$user], 200);
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);
