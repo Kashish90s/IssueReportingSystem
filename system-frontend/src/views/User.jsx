@@ -15,6 +15,16 @@ export default function User() {
     getUsers();
   }, [count]);
 
+  const onDelete = (u) => {
+    if (!window.confirm("Are you sure?")) {
+      return;
+    }
+
+    axiosClient.get(`/user/delete/${u.id}`).then(() => {
+      getUsers();
+    });
+  };
+
   const getUsers = () => {
     setLoading(true);
     axiosClient
@@ -114,7 +124,10 @@ export default function User() {
                       <FontAwesomeIcon icon={faPenToSquare} />
                     </Link>
                       &nbsp;
-                    <button className="btn-delete">
+                    <button
+                      onClick={(ev) => onDelete(u)}
+                      className="btn-delete"
+                    >
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </td>

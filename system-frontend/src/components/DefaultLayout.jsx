@@ -7,7 +7,6 @@ import { faFlag, faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function DefaultLayout() {
   const { user, token, setUser, setToken } = useStateContext();
-  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
@@ -28,10 +27,6 @@ export default function DefaultLayout() {
     });
   };
 
-  const handelActive = (event) => {
-    event.preventDefault();
-    setIsActive(isActive);
-  };
   return (
     <div id="defaultLayout">
       <aside>
