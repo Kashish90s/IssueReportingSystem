@@ -55,9 +55,9 @@ export default function User() {
 
   const checkStatus = (status) => {
     if (status === "Active") {
-      return { color: "lime", textShadow: "0 1px black" };
+      return { background: "#96e45d" };
     } else {
-      return { color: "salmon", textShadow: "0 1px black" };
+      return { background: "#f85b4a" };
     }
   };
 
@@ -113,14 +113,25 @@ export default function User() {
                   <td>{u.email}</td>
                   <td>{u.created_at}</td>
                   <td>{u.dob}</td>
-                  <td
-                    style={{
-                      ...checkStatus(u.status_label),
-                      cursor: "pointer",
-                    }}
-                    onClick={(event) => toggleStatus(u.id, event)}
-                  >
-                    {u.status_label}
+                  <td>
+                    <button
+                      style={{
+                        ...checkStatus(u.status_label),
+                        cursor: "pointer",
+                        display: "inline-block",
+                        padding: "10px 20px", // Adjust padding as needed
+                        border: "none",
+                        fontSize: "15px",
+                        textAlign: "center",
+                        textDecoration: "none",
+                        borderRadius: "4px",
+                        transition: "background-color 0.2s ease-in-out",
+                        color: "white",
+                      }}
+                      onClick={(event) => toggleStatus(u.id, event)}
+                    >
+                      {u.status_label}
+                    </button>
                   </td>
 
                   <td>
