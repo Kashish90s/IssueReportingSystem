@@ -6,26 +6,38 @@ use App\Enums\ApiStatus;
 use App\Http\Requests\Image\ImageRequest;
 use App\Models\Image;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
-    public function getAll(){
-        try{
-            $image = Image::all();
-            return response()->json([ApiStatus::Success,'All data fetched','image'=>$image], 200);
-        }catch(Exception $e){
-            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);
-        }
-    }
 
-    public function getById($id){
-        try{
-            $image = Image::findorfail($id);
-            return response()->json([ApiStatus::Success,'Id found and data fetched','image'=>$image], 200);;
-        }catch(Exception $e){
-            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
-        }
+public function getAll(){
+    try {
+        $images = Image::all();
+
+        $imagesWithContent = $images->map(function ($image) {
+            $imageUrl = Storage::url($image->image_holder);
+            $image->content_url = $imageUrl;
+            return $image;
+        });
+
+        return response()->json([ApiStatus::Success, 'All image data fetched', 'images' => $imagesWithContent], 200);
+    } catch (Exception $e) {
+        return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], null);
     }
+}
+
+public function getById($id){
+    try {
+        $image = Image::findOrFail($id);
+        $imageUrl = Storage::url($image->image_holder);
+
+        return response()->json([ApiStatus::Success, 'Image found', 'image_url' => $imageUrl], 200);
+    } catch (Exception $e) {
+        return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+    }
+}
+
 
 
     public function create(ImageRequest $request, Image $image){

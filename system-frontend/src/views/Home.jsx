@@ -17,8 +17,6 @@ export default function Home() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
     const formData = new FormData();
     formData.append("image_holder", image);
     formData.append("title", title);
@@ -45,7 +43,7 @@ export default function Home() {
       <h5>(like pot holes, broken pavings slabs, or street lighting)</h5>
 
       <div className="home-report">
-        <div className="card">
+        <div className="card animated fadeInDown">
           <span>How to report a problem</span>
           <ol>
             <li>Enter</li>
@@ -54,7 +52,7 @@ export default function Home() {
             <li>Enter</li>
           </ol>
         </div>
-        <div className="card">
+        <div className="card animated fadeInDown">
           <form onSubmit={handleSubmit}>
             <label>Image</label>
             <input type="file" accept="image/*" onChange={handleImageChange} />

@@ -67,7 +67,6 @@ export default function User() {
       getUsers();
     });
   };
-
   return (
     <div>
       <div
@@ -111,8 +110,8 @@ export default function User() {
                   <td>{u.id}</td>
                   <td>{u.name}</td>
                   <td>{u.email}</td>
-                  <td>{u.created_at}</td>
                   <td>{u.dob}</td>
+                  <td>{u.created_at.split("T")[0]}</td>
                   <td>
                     <button
                       style={{

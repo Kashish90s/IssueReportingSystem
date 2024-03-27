@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ApiStatus;
 use App\Enums\IssueStatus;
 use App\Http\Requests\Report\ReportRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Image;
 use App\Models\Location;
 use App\Models\Report;
@@ -15,16 +16,23 @@ class ReportController extends Controller
     public function getAll()
     {
         try{
-            $report = Report::with('user')->orderBy('id','desc')->paginate(12);
-            return response()->json([ApiStatus::Success,'All report data fetched','report'=>$report],200);
-        }catch(Exception $e){
-            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);
-        }
-    }
+            $report = Report::with('user','image','location')->orderBy('id','desc')->paginate(12);
 
-    /**
-     * Show the form for creating a new resource.
-     */
+            $reportsWithImages = $report->map(function ($report) {
+                $imageContent = null;
+                if ($report->image) {
+                    $imagePath = storage_path('app/public/' . $report->image->image_holder);
+                    $imageContent = base64_encode(file_get_contents($imagePath));
+                }
+                $report->image_content = $imageContent;
+                return $report;
+            });
+            return response()->json([ApiStatus::Success, 'All report data fetched', 'reports' => $reportsWithImages], 200);
+    } catch (Exception $e) {
+        return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+    }
+}
+
     public function getById($id)
     {
         try{
