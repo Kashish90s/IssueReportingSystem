@@ -27,7 +27,8 @@ export default function Reports() {
     axiosClient
       .get(`/report?page=${count}`)
       .then(({ data }) => {
-        const reports = data.report.data.map((item) => ({
+        console.log(data);
+        const reports = data.reports.map((item) => ({
           ...item,
           issue_label:
             IssueType.find((type) => type.value === item.issue_status)?.label ||
@@ -40,6 +41,7 @@ export default function Reports() {
         setLoading(false);
       });
   };
+  console.log(report);
   return (
     <div>
       <div
