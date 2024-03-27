@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\ApiStatus;
 use App\Enums\IssueStatus;
 use App\Http\Requests\Report\ReportRequest;
+use App\Models\Image;
+use App\Models\Location;
 use App\Models\Report;
 use Exception;
 
@@ -33,15 +35,35 @@ class ReportController extends Controller
         }
     }
 
-    public function create(ReportRequest $request, Report $report){
-        try{
+    public function create(ReportRequest $request, Report $report, Location $location){
+        try {
+            $image = new Image();
+            if ($request->hasFile('image_holder')) {
+                $media = $request->file('image_holder');
+                $filename = $media->getClientOriginalName();
+                $media->move('./storage', $filename);
+                $image->image_holder = $filename;
+            }
+    
+            $image->user_id = $request->user_id;
+            $image->save();
+    
+            $location->street_name = $request->street_name;
+            $location->ward = $request->ward;
+            $location->zip_code = $request->zip_code;
+            $location->save();
+    
             $report->fill($request->validated());
+            $report->image_id = $image->id;
+            $report->location()->associate($location); 
             $report->save();
-            return response()->json([ApiStatus::Success,'Added','report'=>$report], 200);
-        }catch(Exception $e){
-            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+    
+            return response()->json([ApiStatus::Success, 'Added', 'report' => $report], 200);
+        } catch (Exception $e) {
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
     }
+    
 
     public function update(ReportRequest $request, $id){
         try{

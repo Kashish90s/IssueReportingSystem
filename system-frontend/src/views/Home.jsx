@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Home.css";
 
-export default function Dashboard() {
+export default function Home() {
   const [pastWeekCounter, setPastWeekCounter] = useState(0);
   const [pastMonthCounter, setPastMonthCounter] = useState(0);
   const [totalCounter, setTotalCounter] = useState(0);
