@@ -5,6 +5,7 @@ import axiosClient from "../axios-client";
 import { UserStatus } from "../constant/constant";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
 
 export default function User() {
   const { users, setUsers } = useStateContext();
@@ -16,12 +17,26 @@ export default function User() {
   }, [count]);
 
   const onDelete = (u) => {
-    if (!window.confirm("Are you sure?")) {
-      return;
-    }
-
-    axiosClient.get(`/user/delete/${u.id}`).then(() => {
-      getUsers();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient
+          .get(`/user/delete/${u.id}`)
+          .then(() => {
+            Swal.fire("Deleted!", "Your item has been deleted.", "success");
+            getUsers();
+          })
+          .catch(() => {
+            Swal.fire("Error!", "Failed to delete the item.", "error");
+          });
+      }
     });
   };
 
