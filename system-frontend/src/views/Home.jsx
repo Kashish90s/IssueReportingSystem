@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../context/ContextProvider";
+import Swal from "sweetalert2";
 
 export default function Home() {
   const [image, setImage] = useState(null);
@@ -12,29 +13,58 @@ export default function Home() {
   const [issueType, setIssueType] = useState(1);
   const { user } = useStateContext();
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
-    const formData = new FormData();
-    formData.append("image_holder", image);
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("street_name", streetName);
-    formData.append("ward", ward);
-    formData.append("zip_code", zipCode);
-    formData.append("issue_type", issueType);
-    formData.append("user_id", user.id);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    axiosClient
-      .post("/report/add", formData)
-      .then((response) => {
-        console.log("Report submitted successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error submitting report:", error);
+    try {
+      const formData = new FormData();
+      formData.append("image_holder", image);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("street_name", streetName);
+      formData.append("ward", ward);
+      formData.append("zip_code", zipCode);
+      formData.append("issue_type", issueType);
+      formData.append("user_id", user.id);
+
+      await axiosClient.post("/report/add", formData);
+
+      setImage(null);
+      setTitle("");
+      setDescription("");
+      setStreetName("");
+      setWard("");
+      setZipCode("");
+      setIssueType(1);
+
+      Toast.fire({
+        icon: "success",
+        title: "Report submitted successfully",
       });
+    } catch (error) {
+      console.error("Error submitting report:", error);
+
+      Toast.fire({
+        icon: "error",
+        title: "Error submitting report",
+      });
+    }
   };
 
   return (

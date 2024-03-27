@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
+import Swal from "sweetalert2";
 
 function UserForm() {
   const navigate = useNavigate();
@@ -8,10 +9,10 @@ function UserForm() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [user, setUser] = useState({
-    // Corrected typo (setUser)
     id: null,
     name: "",
     email: "",
+    dob: "",
     password: "",
   });
 
@@ -21,17 +22,29 @@ function UserForm() {
         setLoading(true);
         try {
           const response = await axiosClient.get(`/user/${id}`);
-          setUser(response.data.user); // Corrected potential typo (setUser)
+          setUser(response.data.user);
         } catch (error) {
-          console.error(error); // Handle errors more gracefully
+          console.error(error);
         } finally {
           setLoading(false);
         }
       }
     };
 
-    fetchData(); // Call the function within useEffect
-  }, [id]); // Dependency array to trigger on id change
+    fetchData();
+  }, [id]);
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -40,6 +53,26 @@ function UserForm() {
         .post(`/user/update/${user.id}`, user)
         .then(() => {
           navigate("/users");
+          Toast.fire({
+            icon: "success",
+            title: "User has been Updated",
+          });
+        })
+        .catch((err) => {
+          const response = err.response;
+          if (response && response.status === 422) {
+            setErrors(response.data.errors);
+          }
+        });
+    } else {
+      axiosClient
+        .post(`/user/add`, user)
+        .then(() => {
+          navigate("/users");
+          Toast.fire({
+            icon: "success",
+            title: "New user Added",
+          });
         })
         .catch((err) => {
           const response = err.response;

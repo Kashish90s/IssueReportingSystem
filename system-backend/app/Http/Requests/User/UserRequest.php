@@ -28,19 +28,10 @@ class UserRequest extends FormRequest
             // 'email' => 'required|email:rfc,dns','max:255',Rule::unique('users')->ignore($userId),
             //. operator also used as a ignore syntax
             'email' => 'required|email:rfc,dns|max:255|unique:users,email,'.$this->id,
-            'password' => 'required',
+            'password' => 'required|min:8',
             'code' => 'nullable',
             'dob' => 'nullable|date',
             'google_id' => 'nullable',
-        ];
-    }
-    public function message(): array
-    {
-        return [
-            'name.required' => 'Required',
-            'email.required' => 'Required',
-            'email.email' => 'Email type invalid',
-            'password.required' => 'Required',
         ];
     }
 }
