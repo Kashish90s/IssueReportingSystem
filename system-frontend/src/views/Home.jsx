@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../context/ContextProvider";
 import Swal from "sweetalert2";
+import "./Home.css";
 
 export default function Home() {
   const [image, setImage] = useState(null);
@@ -69,21 +70,49 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Report, view, or discuss local problems</h1>
-      <h5>(like pot holes, broken pavings slabs, or street lighting)</h5>
+      <p className="main-head">Report, view, or discuss local problems</p>
+      <p className="sub-head">
+        (like pot holes, broken pavings slabs, or street lighting)
+      </p>
 
       <div className="home-report">
-        <div className="card animated fadeInDown">
+        <div
+          className="home-guide card animated fadeInDown"
+          style={{ width: "80%" }}
+        >
           <span>How to report a problem</span>
-          <ol>
-            <li>In home page, scroll down</li>
-            <li>Upload/Click picture of the incident</li>
-            <li>Fill in the details of the incident</li>
-            <li>Sumbit your report</li>
+          <ol
+            style={{ "--length": 4, listStyle: "none", paddingLeft: 0 }}
+            role="list"
+          >
+            <li style={{ "--i": 1 }}>
+              <h3>Step 1</h3>
+              <p>In home page, scroll down</p>
+            </li>
+            <li style={{ "--i": 2 }}>
+              <h3>Step 2</h3>
+              <p>Upload/Click picture of the incident</p>
+            </li>
+
+            <li style={{ "--i": 3 }}>
+              <h3>Step 3</h3>
+              <p>Fill in the details of the incident</p>
+            </li>
+            <li style={{ "--i": 4 }}>
+              <h3>Step 4</h3>
+              <p>Sumbit your report</p>
+            </li>
           </ol>
         </div>
-        <div className="card animated fadeInDown">
-          <form onSubmit={handleSubmit}>
+        <div
+          className="card animated fadeInDown"
+          style={{
+            maxWidth: "40rem",
+            padding: "2rem 5rem",
+            borderRadius: "5%",
+          }}
+        >
+          <form onSubmit={handleSubmit} style={{ alignItems: "center" }}>
             <label>Image</label>
             <input type="file" accept="image/*" onChange={handleImageChange} />
             <label>Title</label>
@@ -92,13 +121,6 @@ export default function Home() {
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-            />
-            <label>Description</label>
-            <input
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
             />
             <label>Street Name</label>
             <input
@@ -121,7 +143,7 @@ export default function Home() {
               value={zipCode}
               onChange={(e) => setZipCode(e.target.value)}
             />
-            <label>Issue Type</label>
+            {/* <label>Issue Type</label>
             <select
               name="Issue Type"
               id="issue_type"
@@ -131,6 +153,17 @@ export default function Home() {
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
+            <br /> */}
+            <label>Description</label>
+            <textarea
+              name="description"
+              id="description"
+              cols="30"
+              rows="10"
+              laceholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
             <br />
             <button
               type="submit"

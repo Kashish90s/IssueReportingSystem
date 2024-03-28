@@ -21,7 +21,7 @@ class ReportRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'issue_type' => 'required',
+            'issue_type' => 'nullable',
             'description' => 'nullable',
             'reported_date' => 'nullable',
             'user_id' => 'nullable',
