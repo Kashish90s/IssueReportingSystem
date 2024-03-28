@@ -2,21 +2,22 @@
     margin: 0;
     padding: 0;
 }
-.Reports{
+.reports{
     display: flex;
-    justify-content: left;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .container{
     margin: 15px 30px 10px 0;
     background-color: white; 
-    width: 18rem;  
-    height: 25rem;
+    width: 23rem;  
+    height: 36rem;
     padding: 1rem 1rem 0;
     border-radius: 5%;
     box-shadow: 0 1px 3px rgb(163, 162, 162);
     position: relative;
+    overflow: hidden; 
 }
 .image-holder{
     display: block;
@@ -28,17 +29,20 @@
 }
 .title{
     text-align: center;
-    overflow: hidden; /* Hide any overflowing content */
-    text-overflow: ellipsis; /* Display ellipsis (...) for overflow */
-    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    font-weight:bolder;
+    font-size: larger;
     height: 2rem;
-    padding-bottom: 45px;
-    max-height: 45px;
+    padding-bottom: 55px;
+    max-height: 45px;   
 }
 .vote{
-    display: flex;
+    display:flex;
     justify-content: space-between;
-    font-size: smaller;
+    font-size: medium;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 .vote,.description{
     padding-top: 1px;
@@ -48,30 +52,44 @@
 .date-status{
     display: flex;
     justify-content: space-between;
-    padding: 5px;
+    padding: 6px;
     font-size: smaller;
     position: absolute;
-    bottom: 0;
+    bottom: 1px;
     width: 88%; 
     /* padding: 10px; */
 }
+.like{
+    font-size: larger;
+}
+.status{
+    font-weight: 700;
+}
 .date .status{
     position: absolute;
-    bottom: 0;
 }
-.description{
-    font-size:xx-small;
-    max-height: 5rem;
-    overflow: hidden;
-    text-align: justify;
-    
-}
-img{
-    object-fit: cover;
+.report-detail{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
 }
 .date{
     color: gray;
-    font-size: 8px;
+    font-size: 10px;
+}
+.report-user-name{
+    /* display: block; */
+    font-weight: 600;
+}
+.description{
+    font-size: 12px;
+    max-height: 7rem;
+    overflow: hidden;
+    text-align: justify;  
+}
+img{
+    object-fit: cover;
+    box-shadow: 0 0 2px 1px rgb(30 35 37 / 50%);
 }
 
 .btn-filter {

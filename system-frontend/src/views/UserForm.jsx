@@ -13,7 +13,6 @@ function UserForm() {
     name: "",
     email: "",
     dob: "",
-    password: "",
   });
 
   useEffect(() => {
@@ -101,7 +100,7 @@ function UserForm() {
             <input
               value={user.name}
               onChange={(ev) => setUser({ ...user, name: ev.target.value })}
-              placeholder="Name"
+              placeholder="Full Name"
             />
             <input
               value={user.email}
@@ -114,6 +113,7 @@ function UserForm() {
               placeholder="DOB"
             />
             <input
+              type="password"
               onChange={(ev) => setUser({ ...user, password: ev.target.value })}
               placeholder="Password"
             />

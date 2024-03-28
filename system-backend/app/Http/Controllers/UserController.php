@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ApiStatus;
 use App\Enums\Status;
 use App\Enums\UserType;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 use Exception;
@@ -39,7 +40,7 @@ class UserController extends Controller
         }
     }
 
-    public function update(UserRequest $request, $id){
+    public function update(UpdateUserRequest $request, $id){
         try{
             $user = User::findorfail($id);
             $user->name = $request->name;

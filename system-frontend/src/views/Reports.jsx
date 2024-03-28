@@ -57,7 +57,7 @@ export default function Reports() {
           <span className="btn-filter ">Completed</span>
         </div>
       </div>
-      <div className="Reports animated fadeInDown">
+      <div className="reports animated fadeInDown">
         {loading ? (
           <table>
             <tbody>

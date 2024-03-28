@@ -76,10 +76,10 @@ export default function Home() {
         <div className="card animated fadeInDown">
           <span>How to report a problem</span>
           <ol>
-            <li>Enter</li>
-            <li>Enter</li>
-            <li>Enter</li>
-            <li>Enter</li>
+            <li>In home page, scroll down</li>
+            <li>Upload/Click picture of the incident</li>
+            <li>Fill in the details of the incident</li>
+            <li>Sumbit your report</li>
           </ol>
         </div>
         <div className="card animated fadeInDown">
@@ -131,7 +131,18 @@ export default function Home() {
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
-            <button type="submit">Submit</button>
+            <br />
+            <button
+              type="submit"
+              className="btn"
+              style={{
+                borderRadius: "10%",
+                padding: "10px",
+                marginTop: "30px",
+              }}
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>

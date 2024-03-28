@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatNumber } from "../utility/NumberFormatter";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function ReportContainer({ report }) {
   const date = new Date(report.created_at);
@@ -17,14 +17,37 @@ export default function ReportContainer({ report }) {
           alt="Image"
         />
         <div className="vote">
-          <span>comments</span>
           <span className="upvote-button">
-            <FontAwesomeIcon icon={faHeart} className="like" />
+            <button
+              class="btn"
+              style={{
+                padding: "0.1rem 0.4rem",
+                borderRadius: "20%",
+                marginRight: "3px",
+              }}
+            >
+              <FontAwesomeIcon icon={faArrowUp} />
+            </button>
             {formatNumber(report.votes)}
           </span>
+          <span
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            Comment
+          </span>
+          <span
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            Share
+          </span>
         </div>
-        <div className="description">
-          @{report.user?.name}: {report.description}
+        <div className="report-detail">
+          <span className="report-user-name">@{report.user?.name} </span>
+          <span className="description">{report.description}</span>
         </div>
         <div className="date-status">
           <span className="status">{report.issue_label}</span>
