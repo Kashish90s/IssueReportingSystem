@@ -14,6 +14,8 @@ export default function Home() {
   const [issueType, setIssueType] = useState(1);
   const { user } = useStateContext();
 
+  const [modal, setModal] = useState(false);
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -68,6 +70,10 @@ export default function Home() {
     }
   };
 
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
   return (
     <div>
       <p className="main-head">Report, view, or discuss local problems</p>
@@ -80,7 +86,21 @@ export default function Home() {
           className="home-guide card animated fadeInDown"
           style={{ width: "80%" }}
         >
-          <span>How to report a problem</span>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <p>How to report a problem</p>
+            <button
+              className="btn"
+              style={{ borderRadius: "10%", padding: "10px" }}
+              onClick={toggleModal}
+            >
+              Report
+            </button>
+          </span>
           <ol
             style={{ "--length": 4, listStyle: "none", paddingLeft: 0 }}
             role="list"
@@ -104,46 +124,54 @@ export default function Home() {
             </li>
           </ol>
         </div>
-        <div
-          className="card animated fadeInDown"
-          style={{
-            maxWidth: "40rem",
-            padding: "2rem 5rem",
-            borderRadius: "5%",
-          }}
-        >
-          <form onSubmit={handleSubmit} style={{ alignItems: "center" }}>
-            <label>Image</label>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            <label>Title</label>
-            <input
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <label>Street Name</label>
-            <input
-              type="text"
-              placeholder="Street Name"
-              value={streetName}
-              onChange={(e) => setStreetName(e.target.value)}
-            />
-            <label>Ward</label>
-            <input
-              type="text"
-              placeholder="Ward"
-              value={ward}
-              onChange={(e) => setWard(e.target.value)}
-            />
-            <label>Zip Code</label>
-            <input
-              type="text"
-              placeholder="Zip Code"
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-            />
-            {/* <label>Issue Type</label>
+        {modal && (
+          <div className="modal">
+            <div className="overlay" onClick={toggleModal}></div>
+            <div>
+              <div
+                className="card animated fadeInDown"
+                style={{
+                  width: "50rem",
+                  padding: "2rem 5rem",
+                  borderRadius: "5%",
+                }}
+              >
+                <form onSubmit={handleSubmit} style={{ alignItems: "center" }}>
+                  <label>Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <label>Street Name</label>
+                  <input
+                    type="text"
+                    placeholder="Street Name"
+                    value={streetName}
+                    onChange={(e) => setStreetName(e.target.value)}
+                  />
+                  <label>Ward</label>
+                  <input
+                    type="text"
+                    placeholder="Ward"
+                    value={ward}
+                    onChange={(e) => setWard(e.target.value)}
+                  />
+                  <label>Zip Code</label>
+                  <input
+                    type="text"
+                    placeholder="Zip Code"
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                  />
+                  {/* <label>Issue Type</label>
             <select
               name="Issue Type"
               id="issue_type"
@@ -154,30 +182,36 @@ export default function Home() {
               <option value="2">2</option>
             </select>
             <br /> */}
-            <label>Description</label>
-            <textarea
-              name="description"
-              id="description"
-              cols="30"
-              rows="10"
-              laceholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-            <br />
-            <button
-              type="submit"
-              className="btn"
-              style={{
-                borderRadius: "10%",
-                padding: "10px",
-                marginTop: "30px",
-              }}
-            >
-              Submit
-            </button>
-          </form>
-        </div>
+                  <label>Description</label>
+                  <textarea
+                    name="description"
+                    id="description"
+                    cols="30"
+                    rows="10"
+                    laceholder="Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
+                  <br />
+                  <button
+                    type="submit"
+                    className="btn"
+                    style={{
+                      borderRadius: "10%",
+                      padding: "10px",
+                      marginTop: "30px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                </form>
+                {/* <button className="btn" onClick={toggleModal}>
+                close
+              </button> */}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
