@@ -3,7 +3,12 @@ import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axios-client.js";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFlag, faHouse, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFlag,
+  faHouse,
+  faUser,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function DefaultLayout() {
   const { user, token, setUser, setToken } = useStateContext();
@@ -34,7 +39,7 @@ export default function DefaultLayout() {
           <div className="profile-picture">
             <FontAwesomeIcon icon={faUser} className="logo" />
             {/* <img
-              src="https://cdn.britannica.com/35/238335-050-2CB2EB8A/Lionel-Messi-Argentina-Netherlands-World-Cup-Qatar-2022.jpg"
+              src=""
               alt="User profile"
               className="image"
             /> */}
@@ -45,12 +50,17 @@ export default function DefaultLayout() {
           <FontAwesomeIcon icon={faHouse} className="icon" />
           <span>Home</span>
         </NavLink>
+        <NavLink to="/Profile">
+          <FontAwesomeIcon icon={faUser} className="icon" />
+          <span>Profile</span>
+        </NavLink>
         <NavLink to="/Reports">
           <FontAwesomeIcon icon={faFlag} className="icon" />
           <span>Reports</span>
         </NavLink>
-        <NavLink to="/users">
-          <FontAwesomeIcon icon={faUser} className="icon" />
+
+        <NavLink to="/Users">
+          <FontAwesomeIcon icon={faUserGroup} className="icon" />
           <span>Users</span>
         </NavLink>
       </aside>

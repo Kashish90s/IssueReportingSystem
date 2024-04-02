@@ -8,6 +8,7 @@ import GuestLayout from "./components/GuestLayout";
 import Reports from "./views/Reports";
 import Home from "./views/Home";
 import UserForm from "./views/UserForm";
+import Profile from "./views/Profile";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +28,12 @@ const router = createBrowserRouter([
         element: <Reports />,
       },
       {
-        path: "/users",
+        path: "/Users",
         element: <User />,
+      },
+      {
+        path: "/Profile",
+        element: <Profile />,
       },
       {
         path: "/users/new",

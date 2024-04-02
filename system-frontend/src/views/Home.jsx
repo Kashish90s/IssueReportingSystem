@@ -142,6 +142,7 @@ export default function Home() {
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
+                    required
                   />
                   <label>Title</label>
                   <input
@@ -149,13 +150,15 @@ export default function Home() {
                     placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
                   />
-                  <label>Street Name</label>
+                  <label>Area</label>
                   <input
                     type="text"
                     placeholder="Street Name"
                     value={streetName}
                     onChange={(e) => setStreetName(e.target.value)}
+                    required
                   />
                   <label>Ward</label>
                   <input
@@ -171,17 +174,6 @@ export default function Home() {
                     value={zipCode}
                     onChange={(e) => setZipCode(e.target.value)}
                   />
-                  {/* <label>Issue Type</label>
-            <select
-              name="Issue Type"
-              id="issue_type"
-              value={issueType}
-              onChange={(e) => setIssueType(e.target.value)}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-            <br /> */}
                   <label>Description</label>
                   <textarea
                     name="description"
@@ -191,6 +183,7 @@ export default function Home() {
                     laceholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    required
                   ></textarea>
                   <br />
                   <button

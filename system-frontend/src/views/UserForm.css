@@ -1,0 +1,20 @@
+.form-sample{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.form-sample input {
+    min-width: 25rem;
+    max-width: 25rem;
+    margin: 10px 10px;
+}
+
+.btn-sample {
+    border-radius: 10%;
+}
+.card-sample {
+    padding: 3rem;
+}
+
+

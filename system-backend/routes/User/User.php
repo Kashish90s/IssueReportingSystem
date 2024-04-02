@@ -14,5 +14,6 @@ Route::get('/user/userReport/{id}',[UserController::class,'getReports']);
 Route::get('/user/userComment/{id}',[UserController::class,'getComments']);
 Route::get('/user/userNotification/{id}',[UserController::class,'getNotifications']);
 Route::get('/user/userImage/{id}',[UserController::class,'getImages']);
+Route::patch('/user/changePassword/{id}',[UserController::class,'changePassword']);
 
 

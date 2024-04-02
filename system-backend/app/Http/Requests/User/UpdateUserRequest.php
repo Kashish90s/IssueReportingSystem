@@ -26,6 +26,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'email' => 'sometimes|email:rfc,dns|max:255|unique:users,email,'.$this->id,
             'password' => 'sometimes|min:8',
+            'confirmPassword' => 'sometimes|min:8',
             'dob' => 'nullable|date',
         ];
     }

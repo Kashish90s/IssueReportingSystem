@@ -9,6 +9,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -46,7 +47,6 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->code = $request->code;
-            $user->password = $request->password;
             $user->dob = $request->dob;
             $user->google_id = $request->google_id;
             $user->type = $request->type ?? UserType::Client();
@@ -125,4 +125,23 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    public function changePassword($id, UpdateUserRequest $request) {
+        try {
+            $user = User::findOrFail($id);
+    
+            if ($request->password != $request->confirmPassword) {
+                throw new Exception("Password and confirm password are not the same");
+            }
+            if (!Hash::check($request->oldPassword, $user->password)) {
+                throw new Exception("Old password did not match");
+            }
+            $user->password = Hash::make($request->password);
+            $user->save();
+    
+            return response()->json([ApiStatus::Success, 'message' => 'Password changed', 'user' => $user], 200);
+        } catch (Exception $e) {
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        }
+    }
+    
 }

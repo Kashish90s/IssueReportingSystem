@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import Swal from "sweetalert2";
+import "./UserForm.css";
 
 function UserForm() {
   const navigate = useNavigate();
@@ -86,7 +87,7 @@ function UserForm() {
     <div>
       {user.id && <h1>Update User: {user.name}</h1>}
       {!user.id && <h1>New User</h1>}
-      <div className="card animated fadeInDown">
+      <div className="card-sample animated fadeInDown">
         {loading && <div className="text-center">Loading...</div>}
         {errors && (
           <div className="alert">
@@ -96,11 +97,12 @@ function UserForm() {
           </div>
         )}
         {!loading && (
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className="form-sample">
             <input
               value={user.name}
               onChange={(ev) => setUser({ ...user, name: ev.target.value })}
               placeholder="Full Name"
+
             />
             <input
               value={user.email}
@@ -117,7 +119,7 @@ function UserForm() {
               onChange={(ev) => setUser({ ...user, password: ev.target.value })}
               placeholder="Password"
             />
-            <button className="btn">Save</button>
+            <button className="btn btn-sample">Save</button>
           </form>
         )}
       </div>
