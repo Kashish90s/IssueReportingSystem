@@ -1,4 +1,4 @@
-export const userType = [
+export const UserType = [
   {
     label: "Client",
     value: 2,

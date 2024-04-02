@@ -5,7 +5,11 @@ import axiosClient from "../axios-client";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import "./Profile.css";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAddressCard,
+  faCamera,
+  faKey,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Profile() {
@@ -13,10 +17,9 @@ function Profile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(null);
-  const { register, handleSubmit } = useForm({
-    defaultValues: user,
-  });
+  const { register, handleSubmit, reset } = useForm(); 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [showProfileForm, setShowProfileForm] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +27,7 @@ function Profile() {
       try {
         const response = await axiosClient.get(`/user/get/${user.id}`);
         setUpdatedUser(response.data.user);
+        reset(response.data.user); 
       } catch (error) {
         console.error(error);
       } finally {
@@ -32,7 +36,7 @@ function Profile() {
     };
 
     fetchData();
-  }, [user.id]);
+  }, [user.id, reset]);
 
   const Toast = Swal.mixin({
     toast: true,
@@ -59,7 +63,6 @@ function Profile() {
         formData
       );
 
-      // Update the user's image in the virtual DOM immediately after successful upload
       setUpdatedUser((prevUser) => ({
         ...prevUser,
         images: [...prevUser.images, response.data.image],
@@ -74,9 +77,8 @@ function Profile() {
     }
   };
 
-  const onSubmit = async (userData) => {
+  const updateUserProfile = async (userData) => {
     try {
-      // Update user details
       await axiosClient.post(`/user/update/${userData.id}`, userData);
       Toast.fire({
         icon: "success",
@@ -88,8 +90,27 @@ function Profile() {
     }
   };
 
+  const changeUserPassword = async (data) => {
+    try {
+      await axiosClient.patch(`/user/changePassword/${user.id}`, data);
+      Toast.fire({
+        icon: "success",
+        title: "Password changed successfully",
+      });
+      reset();
+      navigate("/profile");
+    } catch (error) {
+      console.error("Error changing password:", error);
+    }
+  };
+
+  const handleFormSwitch = (isProfileForm) => {
+    setShowProfileForm(isProfileForm);
+    reset();
+  };
+
   if (loading) {
-    return <div>Loading...</div>; // Show loading indicator while data is being fetched
+    return <div>Loading...</div>;
   }
 
   return (
@@ -111,9 +132,9 @@ function Profile() {
         </div>
         <div>
           <form>
-            <label htmlFor="image-upload" className="image-label">
-              Change Image
+            <label className="image-label">
               <FontAwesomeIcon icon={faCamera} className="camera-icon" />
+              Change Image
               <input
                 type="file"
                 id="image-upload"
@@ -121,23 +142,58 @@ function Profile() {
                 onChange={handleFileChange}
               />
             </label>
+
+            <label
+              className={showProfileForm ? "active" : ""}
+              onClick={() => handleFormSwitch(true)}
+            >
+              <FontAwesomeIcon icon={faAddressCard} className="camera-icon" />
+              Update Profile
+            </label>
+            <label
+              className={!showProfileForm ? "active" : ""}
+              onClick={() => handleFormSwitch(false)}
+            >
+              <FontAwesomeIcon icon={faKey} className="camera-icon" />
+              Change Password
+            </label>
           </form>
         </div>
       </div>
       <div className="right-panel">
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <label>Name</label>
-            <input type="text" {...register("name")} required />
-            <label>Email</label>
-            <input type="text" {...register("email")} required />
-            <label>Date of Birth</label>
-            <input type="text" {...register("dob")} required />
-            <button type="submit" className="update btn">
-              Update
-            </button>
-          </form>
-        </div>
+        {showProfileForm ? (
+          <div>
+            <form onSubmit={handleSubmit(updateUserProfile)}>
+              <label>Name</label>
+              <input type="text" {...register("name")} required />
+              <label>Email</label>
+              <input type="text" {...register("email")} required />
+              <label>Date of Birth</label>
+              <input type="text" {...register("dob")} required />
+              <button type="submit" className="update btn">
+                Update
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div>
+            <form onSubmit={handleSubmit(changeUserPassword)}>
+              <label>Old Password</label>
+              <input type="password" {...register("oldPassword")} required />
+              <label>New Password</label>
+              <input type="password" {...register("password")} required />
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                {...register("confirmPassword")}
+                required
+              />
+              <button type="submit" className="update btn">
+                Update
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

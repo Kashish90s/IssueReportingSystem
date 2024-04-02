@@ -8,10 +8,11 @@ import { useEffect, useState } from "react";
 export default function Reports() {
   const { report, loading, setLoading, setReport } = useStateContext();
   const [count, setCount] = useState(1);
+  const [activeFilter, setActiveFilter] = useState("recent");
 
   useEffect(() => {
     getReports();
-  }, [count]);
+  }, [count, activeFilter]);
 
   const previousPage = () => {
     if (count > 1) {
@@ -40,6 +41,13 @@ export default function Reports() {
         setLoading(false);
       });
   };
+
+  const handleFilterChange = (filter) => {
+    setActiveFilter(filter);
+    // Optionally, you can reset the page count to 1 when filter changes
+    setCount(1);
+  };
+
   return (
     <div>
       <div
@@ -52,9 +60,33 @@ export default function Reports() {
       >
         <h1>Reports</h1>
         <div>
-          Filter: <span className="btn-filter ">Recent</span> |{" "}
-          <span className="btn-filter ">Most Popular</span> |
-          <span className="btn-filter ">Completed</span>
+          Filter:
+          <span
+            className={`btn-filter ${
+              activeFilter === "recent" ? "active" : ""
+            }`}
+            onClick={() => handleFilterChange("recent")}
+          >
+            Recent
+          </span>{" "}
+          |
+          <span
+            className={`btn-filter ${
+              activeFilter === "popular" ? "active" : ""
+            }`}
+            onClick={() => handleFilterChange("popular")}
+          >
+            Most Popular
+          </span>{" "}
+          |
+          <span
+            className={`btn-filter ${
+              activeFilter === "completed" ? "active" : ""
+            }`}
+            onClick={() => handleFilterChange("completed")}
+          >
+            Completed
+          </span>
         </div>
       </div>
       <div className="reports animated fadeInDown">

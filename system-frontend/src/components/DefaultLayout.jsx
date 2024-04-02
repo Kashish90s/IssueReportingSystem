@@ -9,6 +9,7 @@ import {
   faUser,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
+import { UserType } from "../constant/constant.jsx";
 
 export default function DefaultLayout() {
   const { user, token, setUser, setToken } = useStateContext();
@@ -59,10 +60,13 @@ export default function DefaultLayout() {
           <span>Reports</span>
         </NavLink>
 
-        <NavLink to="/Users">
-          <FontAwesomeIcon icon={faUserGroup} className="icon" />
-          <span>Users</span>
-        </NavLink>
+        {user.type ===
+          UserType.find((type) => type.label === "Admin").value && (
+          <NavLink to="/Users">
+            <FontAwesomeIcon icon={faUserGroup} className="icon" />
+            <span>Users</span>
+          </NavLink>
+        )}
       </aside>
       <div className="content">
         <header>
