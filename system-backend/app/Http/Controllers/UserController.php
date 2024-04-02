@@ -24,17 +24,26 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], null);
         }
     }
-
     public function getById($id){
         try{
             $user = User::with(['images' => function ($query) {
                 $query->whereRaw('RIGHT(image_holder, 1) REGEXP "^[0-9]+$"');
             }])->findOrFail($id);
-            return response()->json([ApiStatus::Success,'Id found and data fetched','user'=>$user], 200);;
-        }catch(Exception $e){
+    
+            // Check if user has images and encode image content
+            if ($user->images->isNotEmpty()) {
+                foreach ($user->images as $image) {
+                    $imagePath = storage_path('app/public/' . $image->image_holder);
+                    $image->image_content = base64_encode(file_get_contents($imagePath));
+                }
+            }
+    
+            return response()->json([ApiStatus::Success,'Id found and data fetched','user'=>$user], 200);
+        } catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+    
     public function create(UserRequest $request, User $user){
         try{
             $user->fill($request->validated());
