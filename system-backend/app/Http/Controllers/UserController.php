@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Enums\ApiStatus;
 use App\Enums\Status;
 use App\Enums\UserType;
+use App\Http\Requests\Image\ImageRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserRequest;
+use App\Models\Image;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +27,9 @@ class UserController extends Controller
 
     public function getById($id){
         try{
-            $user = User::findorfail($id);
+            $user = User::with(['images' => function ($query) {
+                $query->whereRaw('RIGHT(image_holder, 1) REGEXP "^[0-9]+$"');
+            }])->findOrFail($id);
             return response()->json([ApiStatus::Success,'Id found and data fetched','user'=>$user], 200);;
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
@@ -116,15 +120,15 @@ class UserController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
-    public function getImages($id){
-        try{
-            $user = User::findorfail($id);
-            $image = $user->images()->get();
-            return response()->json([ApiStatus::Success,'All image of this user fetched','image'=>$image],200);
-        }catch(Exception $e){
-            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
-        }
-    }
+    // public function getImages($id){
+    //     try{
+    //         $user = User::findorfail($id);
+    //         $image = $user->images()->get();
+    //         return response()->json([ApiStatus::Success,'All image of this user fetched','image'=>$image],200);
+    //     }catch(Exception $e){
+    //         return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+    //     }
+    // }
     public function changePassword($id, UpdateUserRequest $request) {
         try {
             $user = User::findOrFail($id);
@@ -140,6 +144,22 @@ class UserController extends Controller
     
             return response()->json([ApiStatus::Success, 'message' => 'Password changed', 'user' => $user], 200);
         } catch (Exception $e) {
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        }
+    }
+    public function changeProfileImage($id,ImageRequest $request){
+        try{
+            $image = new Image();
+            if ($request->hasFile('image_holder')) {
+                $media = $request->file('image_holder');
+                $filename = $media->getClientOriginalName() . $id;
+                $media->move('./storage', $filename);
+                $image->image_holder = $filename;
+            }
+            $image->user_id = $id;
+            $image->save();
+            return response()->json([ApiStatus::Success, 'Added', 'image' => $image], 200);
+        }catch(Exception $e){
             return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
     }
