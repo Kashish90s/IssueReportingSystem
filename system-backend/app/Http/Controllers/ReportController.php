@@ -28,10 +28,28 @@ class ReportController extends Controller
                 return $report;
             });
             return response()->json([ApiStatus::Success, 'All report data fetched', 'reports' => $reportsWithImages], 200);
-    } catch (Exception $e) {
-        return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        } catch (Exception $e) {
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        }
     }
-}
+    public function getCompleted(){
+        try{
+            $report = Report::with('user','image','location')->where('issue_status',IssueStatus::Complete)->orderBy('id','desc')->paginate(12);
+
+            $reportsWithImages = $report->map(function ($report) {
+                $imageContent = null;
+                if ($report->image) {
+                    $imagePath = storage_path('app/public/' . $report->image->image_holder);
+                    $imageContent = base64_encode(file_get_contents($imagePath));
+                }
+                $report->image_content = $imageContent;
+                return $report;
+            });
+            return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages], 200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        }
+    }
 
     public function getById($id)
     {
@@ -104,11 +122,11 @@ class ReportController extends Controller
     public function toggleIssueStatus($id, Report $report){
         try{
             $report = $report->findorfail($id);
-            if($report->status == IssueStatus::Processing){
-               $report->status = IssueStatus::Complete;
+            if($report->issue_status == IssueStatus::Processing){
+               $report->issue_status = IssueStatus::Complete;
             }
             else{
-                $report->status = IssueStatus::Processing;
+                $report->issue_status = IssueStatus::Processing;
             }
             $report->save();
             return response()->json([ApiStatus::Success,'Updated','report'=>$report],200);

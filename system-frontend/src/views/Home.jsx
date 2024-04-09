@@ -75,7 +75,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div style={{ overflowY: "scroll", height: "600px" }}>
       <p className="main-head">Report, view, or discuss local problems</p>
       <p className="sub-head">
         (like pot holes, broken pavings slabs, or street lighting)
@@ -162,14 +162,14 @@ export default function Home() {
                   />
                   <label>Ward</label>
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Ward"
                     value={ward}
                     onChange={(e) => setWard(e.target.value)}
                   />
                   <label>Zip Code</label>
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Zip Code"
                     value={zipCode}
                     onChange={(e) => setZipCode(e.target.value)}

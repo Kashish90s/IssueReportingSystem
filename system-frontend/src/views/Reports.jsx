@@ -25,26 +25,35 @@ export default function Reports() {
 
   const getReports = () => {
     setLoading(true);
-    axiosClient
-      .get(`/report?page=${count}`)
-      .then(({ data }) => {
-        const reports = data.reports.map((item) => ({
-          ...item,
-          issue_label:
-            IssueType.find((type) => type.value === item.issue_status)?.label ||
-            "Unknown",
-        }));
-        setLoading(false);
-        setReport(reports);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    let apiUrl;
+
+    if (activeFilter === "recent") {
+      apiUrl = "/report?page=" + count;
+    } else if (activeFilter === "completed") {
+      apiUrl = "/report/completed?page=" + count;
+    }
+
+    if (apiUrl) {
+      axiosClient
+        .get(apiUrl)
+        .then(({ data }) => {
+          const reports = data.reports.map((item) => ({
+            ...item,
+            issue_label:
+              IssueType.find((type) => type.value === item.issue_status)
+                ?.label || "Unknown",
+          }));
+          setLoading(false);
+          setReport(reports);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    }
   };
 
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
-    // Optionally, you can reset the page count to 1 when filter changes
     setCount(1);
   };
 
@@ -56,6 +65,7 @@ export default function Reports() {
           justifyContent: "space-between",
           alignItems: "center",
           cursor: "pointer",
+          margin: "5px",
         }}
       >
         <h1>Reports</h1>
@@ -89,7 +99,10 @@ export default function Reports() {
           </span>
         </div>
       </div>
-      <div className="reports animated fadeInDown">
+      <div
+        className="reports animated fadeInDown"
+        style={{ overflowY: "scroll", height: "600px" }}
+      >
         {loading ? (
           <table>
             <tbody>

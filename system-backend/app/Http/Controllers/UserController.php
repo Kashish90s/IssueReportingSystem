@@ -40,6 +40,7 @@ class UserController extends Controller
     
             return response()->json([ApiStatus::Success,'Id found and data fetched','user'=>$user], 200);
         } catch(Exception $e){
+            dd($e);
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }

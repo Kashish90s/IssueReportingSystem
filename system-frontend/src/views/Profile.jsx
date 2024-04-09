@@ -17,7 +17,7 @@ function Profile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(null);
-  const { register, handleSubmit, reset } = useForm(); 
+  const { register, handleSubmit, reset } = useForm();
   const [selectedFile, setSelectedFile] = useState(null);
   const [showProfileForm, setShowProfileForm] = useState(true);
 
@@ -27,7 +27,7 @@ function Profile() {
       try {
         const response = await axiosClient.get(`/user/get/${user.id}`);
         setUpdatedUser(response.data.user);
-        reset(response.data.user); 
+        reset(response.data.user);
       } catch (error) {
         console.error(error);
       } finally {

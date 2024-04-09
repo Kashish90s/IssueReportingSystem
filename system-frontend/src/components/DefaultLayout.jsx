@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFlag,
   faHouse,
+  faPassport,
   faUser,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
@@ -64,7 +65,14 @@ export default function DefaultLayout() {
           UserType.find((type) => type.label === "Admin").value && (
           <NavLink to="/Users">
             <FontAwesomeIcon icon={faUserGroup} className="icon" />
-            <span>Users</span>
+            <span>Manage Users</span>
+          </NavLink>
+        )}
+        {user.type ===
+          UserType.find((type) => type.label === "Admin").value && (
+          <NavLink to="/Manage Reports">
+            <FontAwesomeIcon icon={faPassport} className="icon" />
+            <span>Manage Reports</span>
           </NavLink>
         )}
       </aside>

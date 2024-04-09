@@ -9,8 +9,6 @@ export default function ReportContainer({ report }) {
   const extractedDate = date.toISOString().split("T")[0];
   const extractedTime = date.toISOString().split("T")[1].split(".")[0];
 
-  console.log(report);
-
   return (
     <div>
       <div className="container">

@@ -9,6 +9,7 @@ import Reports from "./views/Reports";
 import Home from "./views/Home";
 import UserForm from "./views/UserForm";
 import Profile from "./views/Profile";
+import ManageReports from "./views/ManageReports";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/Profile",
         element: <Profile />,
+      },
+      {
+        path: "/Manage Reports",
+        element: <ManageReports />,
       },
       {
         path: "/users/new",

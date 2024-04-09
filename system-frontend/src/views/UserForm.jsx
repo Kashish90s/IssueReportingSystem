@@ -21,7 +21,7 @@ function UserForm() {
       if (id) {
         setLoading(true);
         try {
-          const response = await axiosClient.get(`/user/${id}`);
+          const response = await axiosClient.get(`/user/get/${id}`);
           setUser(response.data.user);
         } catch (error) {
           console.error(error);
@@ -102,7 +102,6 @@ function UserForm() {
               value={user.name}
               onChange={(ev) => setUser({ ...user, name: ev.target.value })}
               placeholder="Full Name"
-
             />
             <input
               value={user.email}
