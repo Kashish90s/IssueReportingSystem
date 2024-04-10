@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
+import "./ManageReport.css";
 
 export default function ManageReports() {
   const { users, setUsers } = useStateContext();
@@ -72,8 +73,26 @@ export default function ManageReports() {
     });
   };
 
-  const toggleExpand = (id) => {
-    setExpandedRow((prevRow) => (prevRow === id ? null : id));
+  const toggleExpand = (id, event) => {
+    // Prevent row expansion when the fontawesome icon is clicked
+    if (event.target.tagName === "svg") {
+      event.stopPropagation();
+      setExpandedRow((prevRow) => (prevRow === id ? null : id));
+    }
+  };
+
+  const openImage = (u) => {
+    Swal.fire({
+      title: u.title,
+      text: u.location.street_name,
+      imageUrl: `data:image/jpeg;base64, ${u.image_content}`,
+      imageAlt: "Custom image",
+      didRender: () => {
+        const img = document.querySelector(".swal2-image");
+        img.style.maxWidth = "450px";
+        img.style.maxHeight = "300px";
+      },
+    });
   };
 
   return (
@@ -91,7 +110,7 @@ export default function ManageReports() {
         <table>
           <thead>
             <tr>
-              <th></th>
+              <th className="th-arrow"></th>
               <th>ID</th>
               <th>Title</th>
               <th>Location</th>
@@ -116,6 +135,8 @@ export default function ManageReports() {
                         icon={
                           expandedRow === u.id ? faChevronDown : faChevronRight
                         }
+                        onClick={(event) => toggleExpand(u.id, event)}
+                        className="td-icon"
                       />
                     </td>
                     <td>{u.id}</td>
@@ -155,24 +176,29 @@ export default function ManageReports() {
                   {expandedRow === u.id && (
                     <tr>
                       <td colSpan="6">
-                        <div>
-                          <img
-                            className="image-holder"
-                            src={`data:image/jpeg;base64, ${u.image_content}`}
-                            alt="Image"
-                            style={{ width: "150px", textAlign: "left" }}
-                          />
-                          <p>
-                            <strong>Description:</strong> {u.description}
-                          </p>
-                          <p>
-                            <strong>Location Street:</strong>{" "}
-                            {u.location && u.location.street_name}
-                          </p>
-                          <p>
-                            <strong>Location Zip:</strong>{" "}
-                            {u.location && u.location.zip_code}
-                          </p>
+                        <div className="extend">
+                          <div>
+                            <img
+                              className="extended-image"
+                              src={`data:image/jpeg;base64, ${u.image_content}`}
+                              alt="Image"
+                              onClick={() => openImage(u)}
+                            />
+                          </div>
+                          <div>
+                            <p>
+                              <strong>Location Zip:</strong>
+                              <br /> {u.location && u.location.zip_code}
+                            </p>
+                            <p>
+                              <strong>Location Street:</strong>
+                              <br /> {u.location && u.location.street_name}
+                            </p>
+                            <p className="report-description">
+                              <strong>Description:</strong> <br />{" "}
+                              {u.description}
+                            </p>
+                          </div>
                         </div>
                       </td>
                     </tr>

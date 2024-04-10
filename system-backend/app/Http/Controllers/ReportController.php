@@ -10,28 +10,36 @@ use App\Models\Image;
 use App\Models\Location;
 use App\Models\Report;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
     public function getAll()
-    {
-        try{
-            $report = Report::with('user','image','location')->orderBy('id','desc')->paginate(12);
+{
+    try {
+        $report = Report::with('user', 'image', 'location')->orderBy('id', 'desc')->paginate(12);
 
-            $reportsWithImages = $report->map(function ($report) {
-                $imageContent = null;
-                if ($report->image) {
-                    $imagePath = storage_path('app/public/' . $report->image->image_holder);
+        $reportsWithImages = $report->map(function ($report) {
+            $imageContent = null;
+            if ($report->image && $report->image->image_holder) {
+                $imagePath = "D:\\FYP\\Project\\IssueReportingSystem\\system-backend\\storage\\app\\public\\" . $report->image->image_holder;
+                if (file_exists($imagePath)) {
                     $imageContent = base64_encode(file_get_contents($imagePath));
+                } else {
+                    // Handle the case where the file doesn't exist
+                    $imageContent = "File not found";
                 }
-                $report->image_content = $imageContent;
-                return $report;
-            });
-            return response()->json([ApiStatus::Success, 'All report data fetched', 'reports' => $reportsWithImages], 200);
-        } catch (Exception $e) {
-            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
-        }
+            }
+            $report->image_content = $imageContent;
+            return $report;
+        });
+
+        return response()->json([ApiStatus::Success, 'All report data fetched', 'reports' => $reportsWithImages], 200);
+    } catch (Exception $e) {
+        return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
     }
+}
+
     public function getCompleted(){
         try{
             $report = Report::with('user','image','location')->where('issue_status',IssueStatus::Complete)->orderBy('id','desc')->paginate(12);
@@ -61,7 +69,7 @@ class ReportController extends Controller
         }
     }
 
-    public function create(ReportRequest $request, Report $report, Location $location){
+    public function create(ReportRequest $request, Report $report, Location $location) {
         try {
             $image = new Image();
             if ($request->hasFile('image_holder')) {
@@ -79,16 +87,23 @@ class ReportController extends Controller
             $location->zip_code = $request->zip_code;
             $location->save();
     
-            $report->fill($request->validated());
+            if ($request->validated()) {
+                $report->fill($request->validated());
+            } else {
+                // Handle validation errors
+                return response()->json([ApiStatus::Failure, 'message' => 'Validation failed'], 422);
+            }
+    
             $report->image_id = $image->id;
             $report->location()->associate($location); 
             $report->save();
     
             return response()->json([ApiStatus::Success, 'Added', 'report' => $report], 200);
         } catch (Exception $e) {
-            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+            return response()->json([ApiStatus::Failure, 'message' => 'Failed to create report'], 500);
         }
     }
+    
     
 
     public function update(ReportRequest $request, $id){

@@ -37,6 +37,7 @@ export default function Reports() {
       axiosClient
         .get(apiUrl)
         .then(({ data }) => {
+          console.log(data);
           const reports = data.reports.map((item) => ({
             ...item,
             issue_label:
@@ -56,7 +57,6 @@ export default function Reports() {
     setActiveFilter(filter);
     setCount(1);
   };
-
   return (
     <div>
       <div

@@ -43,7 +43,6 @@ export default function Home() {
       formData.append("street_name", streetName);
       formData.append("ward", ward);
       formData.append("zip_code", zipCode);
-      formData.append("issue_type", issueType);
       formData.append("user_id", user.id);
 
       await axiosClient.post("/report/add", formData);
