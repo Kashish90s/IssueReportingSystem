@@ -10,6 +10,7 @@ use App\Models\Image;
 use App\Models\Location;
 use App\Models\Report;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
@@ -167,6 +168,30 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
         }
     }
+
+    public function postLike($report_id, $user_id, Report $report) {
+        try {
+            $report = $report->findOrFail($report_id);
+            $votes = $report->votes ?? [];
+            if (!is_array($votes)) {
+                $votes = json_decode($votes, true); 
+            }
+            $index = array_search($user_id, $votes);
+    
+            if ($index !== false) {
+                unset($votes[$index]);
+            } else {
+                $votes[] = $user_id;
+            }
+            $votes = array_unique($votes);
+            $report->update(['votes' => $votes]);
+            return response()->json([ApiStatus::Success, 'message' => 'Vote updated successfully', 'report' => $report], 200);
+        } catch (Exception $e) {
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        }
+    }
+    
+    
 
     public function getReportUsers($id){
         try{

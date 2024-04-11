@@ -10,6 +10,7 @@ Route::get('/report/completed',[ReportController::class, 'getCompleted']);
 Route::get('/report/popular',[ReportController::class, 'getMostPopular']);
 Route::get('/report/{id}',[ReportController::class, 'getById']);
 Route::get('/report/delete/{id}',[ReportController::class, 'delete']);
+Route::patch('/report/vote/{report_id}/{user_id}', [ReportController::class, 'postLike']);
 Route::patch('/report/toggleIssueStatus/{id}',[ReportController::class, 'toggleIssueStatus']);
 Route::get('/report/reportUser/{id}',[ReportController::class,'getReportUsers']);
 Route::get('/report/reportComment/{id}',[ReportController::class,'getComments']);

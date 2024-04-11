@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('issue_status')->default(IssueStatus::Processing);
             $table->foreignId('issue_type')->nullable()->constrained('issue_types','id');
             $table->foreignId('image_id')->nullable()->constrained('images','id');
-            $table->string('votes')->nullable();
+            $table->json('votes')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,7 +30,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     */
+     */     
     public function down(): void
     {
         Schema::dropIfExists('reports');
