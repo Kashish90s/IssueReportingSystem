@@ -31,6 +31,8 @@ export default function Reports() {
       apiUrl = "/report?page=" + count;
     } else if (activeFilter === "completed") {
       apiUrl = "/report/completed?page=" + count;
+    } else if (activeFilter === "popular") {
+      apiUrl = "/report/popular?page=" + count;
     }
 
     if (apiUrl) {

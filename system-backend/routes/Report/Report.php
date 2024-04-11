@@ -7,6 +7,7 @@ Route::post('/report/add',[ReportController::class, 'create']);
 Route::post('/report/update/{id}',[ReportController::class, 'update']);
 Route::get('/report',[ReportController::class, 'getAll']);
 Route::get('/report/completed',[ReportController::class, 'getCompleted']);
+Route::get('/report/popular',[ReportController::class, 'getMostPopular']);
 Route::get('/report/{id}',[ReportController::class, 'getById']);
 Route::get('/report/delete/{id}',[ReportController::class, 'delete']);
 Route::patch('/report/toggleIssueStatus/{id}',[ReportController::class, 'toggleIssueStatus']);
