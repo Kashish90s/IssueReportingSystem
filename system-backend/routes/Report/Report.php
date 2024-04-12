@@ -3,18 +3,21 @@
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/report/add',[ReportController::class, 'create']);
-Route::post('/report/update/{id}',[ReportController::class, 'update']);
-Route::get('/report',[ReportController::class, 'getAll']);
-Route::get('/report/completed',[ReportController::class, 'getCompleted']);
-Route::get('/report/popular',[ReportController::class, 'getMostPopular']);
-Route::get('/report/{id}',[ReportController::class, 'getById']);
-Route::get('/report/delete/{id}',[ReportController::class, 'delete']);
-Route::patch('/report/vote/{report_id}/{user_id}', [ReportController::class, 'postLike']);
-Route::patch('/report/toggleIssueStatus/{id}',[ReportController::class, 'toggleIssueStatus']);
-Route::get('/report/reportUser/{id}',[ReportController::class,'getReportUsers']);
-Route::get('/report/reportComment/{id}',[ReportController::class,'getComments']);
-Route::get('/report/reportLocation/{id}',[ReportController::class,'getLocation']);
-Route::get('/report/reportIssueType/{id}',[ReportController::class,'getIssueType']);
-Route::get('/report/reportImage/{id}',[ReportController::class,'getImage']);
-Route::get('/report/reportNotification/{id}',[ReportController::class,'getNotification']);
+
+Route::controller(ReportController::class)->group(function () {
+    Route::post('/report/add', 'create');
+    Route::post('/report/update/{id}','update');
+    Route::get('/report','getAll');
+    Route::get('/report/completed','getCompleted');
+    Route::get('/report/popular','getMostPopular');
+    Route::get('/report/{id}','getById');
+    Route::get('/report/delete/{id}','delete');
+    Route::patch('/report/vote/{report_id}/{user_id}','postLike');
+    Route::patch('/report/toggleIssueStatus/{id}','toggleIssueStatus');
+    Route::get('/report/reportUser/{id}','getReportUsers');
+    Route::get('/report/reportComment/{id}','getComments');
+    Route::get('/report/reportLocation/{id}','getLocation');
+    Route::get('/report/reportIssueType/{id}','getIssueType');
+    Route::get('/report/reportImage/{id}','getImage');
+    Route::get('/report/reportNotification/{id}','getNotification');
+});

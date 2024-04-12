@@ -20,20 +20,15 @@ class ReportController extends Controller
     try {
         $report = Report::with('user', 'image', 'location')->orderBy('id', 'desc')->paginate(12);
 
-        $reportsWithImages = $report->map(function ($report) {
-            $imageContent = null;
-            if ($report->image && $report->image->image_holder) {
-                $imagePath = "D:\\FYP\\Project\\IssueReportingSystem\\system-backend\\storage\\app\\public\\" . $report->image->image_holder;
-                if (file_exists($imagePath)) {
+         $reportsWithImages = $report->map(function ($report) {
+                $imageContent = null;
+                if ($report->image) {
+                    $imagePath = storage_path('app/public/' . $report->image->image_holder);
                     $imageContent = base64_encode(file_get_contents($imagePath));
-                } else {
-                    // Handle the case where the file doesn't exist
-                    $imageContent = "File not found";
                 }
-            }
-            $report->image_content = $imageContent;
-            return $report;
-        });
+                $report->image_content = $imageContent;
+                return $report;
+            });
 
         return response()->json([ApiStatus::Success, 'All report data fetched', 'reports' => $reportsWithImages], 200);
     } catch (Exception $e) {
@@ -59,9 +54,13 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
     }
+
     public function getMostPopular(){
         try{
-            $report = Report::with('user','image','location')->orderBy('votes','desc')->paginate(12);
+            $report = Report::with('user','image','location')->get();
+            $sortedVotes = $report->sortByDesc(function ($item) {
+            return $item->votes;
+            });
 
             $reportsWithImages = $report->map(function ($report) {
                 $imageContent = null;
@@ -72,7 +71,7 @@ class ReportController extends Controller
                 $report->image_content = $imageContent;
                 return $report;
             });
-            return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages], 200);
+            return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages, 'soretVote'=>$sortedVotes], 200);
         }catch(Exception $e){
             return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
