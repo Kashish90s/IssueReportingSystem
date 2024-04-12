@@ -61,7 +61,6 @@ export default function Home() {
       });
     } catch (error) {
       console.error("Error submitting report:", error);
-
       Toast.fire({
         icon: "error",
         title: "Error submitting report",

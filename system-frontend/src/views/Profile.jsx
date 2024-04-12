@@ -25,9 +25,11 @@ function Profile() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axiosClient.get(`/user/get/${user.id}`);
-        setUpdatedUser(response.data.user);
-        reset(response.data.user);
+        if (user && user.id) {
+          const response = await axiosClient.get(`/user/get/${user.id}`);
+          setUpdatedUser(response.data.user);
+          reset(response.data.user);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -36,7 +38,7 @@ function Profile() {
     };
 
     fetchData();
-  }, [user.id, reset]);
+  }, [user, reset]);
 
   const Toast = Swal.mixin({
     toast: true,

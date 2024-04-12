@@ -20,7 +20,7 @@ export default function ManageReports() {
 
   useEffect(() => {
     getUsers();
-  }, [count]); // Fetch data when component mounts and whenever count changes
+  }, [count]);
 
   const onDelete = (u) => {
     Swal.fire({

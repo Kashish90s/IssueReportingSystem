@@ -39,12 +39,12 @@ export default function Reports() {
       axiosClient
         .get(apiUrl)
         .then(({ data }) => {
-          console.log(data);
           const reports = data.reports.map((item) => ({
             ...item,
             issue_label:
               IssueType.find((type) => type.value === item.issue_status)
                 ?.label || "Unknown",
+            votes: JSON.parse(item.votes), // Parse votes from string to array
           }));
           setLoading(false);
           setReport(reports);
