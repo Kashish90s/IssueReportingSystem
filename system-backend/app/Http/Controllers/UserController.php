@@ -48,6 +48,7 @@ class UserController extends Controller
     public function create(UserRequest $request, User $user){
         try{
             $user->fill($request->validated());
+            
             $user->save();
             return response()->json([ApiStatus::Success,'Added','user'=>$user], 200);
         }catch(Exception $e){

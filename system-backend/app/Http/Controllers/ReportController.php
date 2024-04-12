@@ -106,13 +106,15 @@ class ReportController extends Controller
             $location->zip_code = $request->zip_code;
             $location->save();
     
+            $serializedVotes = json_encode([]);
+    
             if ($request->validated()) {
                 $report->fill($request->validated());
             } else {
-                // Handle validation errors
                 return response()->json([ApiStatus::Failure, 'message' => 'Validation failed'], 422);
             }
     
+            $report->votes = $serializedVotes;
             $report->image_id = $image->id;
             $report->location()->associate($location); 
             $report->save();
@@ -122,6 +124,7 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure, 'message' => 'Failed to create report'], 500);
         }
     }
+    
     
     
 
@@ -173,11 +176,8 @@ class ReportController extends Controller
         try {
             $report = $report->findOrFail($report_id);
             $votes = $report->votes ?? [];
-            if (!is_array($votes)) {
-                $votes = json_decode($votes, true); 
-            }
+            $votes = json_decode($votes, true);
             $index = array_search($user_id, $votes);
-    
             if ($index !== false) {
                 unset($votes[$index]);
             } else {
@@ -185,7 +185,7 @@ class ReportController extends Controller
             }
             $votes = array_unique($votes);
             $report->update(['votes' => $votes]);
-            return response()->json([ApiStatus::Success, 'message' => 'Vote updated successfully', 'report' => $report], 200);
+            return response()->json([ApiStatus::Success, 'message' => 'Vote updated successfully', 'votes' => $report->votes], 200);
         } catch (Exception $e) {
             return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
