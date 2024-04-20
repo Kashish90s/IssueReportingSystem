@@ -76,6 +76,27 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
     }
+    public function getUserReports($user_id){
+        try{
+            $report = Report::with('user','image','location')->where('user_id',$user_id)->get();
+            $sortedVotes = $report->sortByDesc(function ($item) {
+            return $item->votes;
+            });
+
+            $reportsWithImages = $report->map(function ($report) {
+                $imageContent = null;
+                if ($report->image) {
+                    $imagePath = storage_path('app/public/' . $report->image->image_holder);
+                    $imageContent = base64_encode(file_get_contents($imagePath));
+                }
+                $report->image_content = $imageContent;
+                return $report;
+            });
+            return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages, 'soretVote'=>$sortedVotes], 200);
+        }catch(Exception $e){
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        }
+    }
 
     public function getById($id)
     {

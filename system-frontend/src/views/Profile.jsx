@@ -11,11 +11,14 @@ import {
   faKey,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReportContainer from "./ReportContainer";
+import { IssueType } from "../constant/constant";
 
 function Profile() {
   const { user } = useStateContext();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [report, setReport] = useState([]);
   const [updatedUser, setUpdatedUser] = useState(null);
   const { register, handleSubmit, reset } = useForm();
   const [selectedFile, setSelectedFile] = useState(null);
@@ -29,6 +32,7 @@ function Profile() {
           const response = await axiosClient.get(`/user/get/${user.id}`);
           setUpdatedUser(response.data.user);
           reset(response.data.user);
+          getReports(user.id); // Call getReports here with user.id
         }
       } catch (error) {
         console.error(error);
@@ -39,6 +43,28 @@ function Profile() {
 
     fetchData();
   }, [user, reset]);
+
+  const getReports = (userId) => {
+    setLoading(true);
+    axiosClient
+      .get(`/report/userReport/${userId}`)
+      .then(({ data }) => {
+        console.log(data);
+        const reports = data.reports.map((item) => ({
+          ...item,
+          issue_label:
+            IssueType.find((type) => type.value === item.issue_status)?.label ||
+            "Unknown",
+          votes: JSON.parse(item.votes),
+        }));
+        console.log(reports);
+        setLoading(false);
+        setReport(reports);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   const Toast = Swal.mixin({
     toast: true,
@@ -115,86 +141,113 @@ function Profile() {
     return <div>Loading...</div>;
   }
 
+  console.log(report);
   return (
-    <div className="card panel">
-      <div className="left-panel">
-        <div>
-          {updatedUser &&
-            updatedUser.images &&
-            updatedUser.images.length > 0 && (
-              <img
-                className="profile-image"
-                src={`data:image/jpeg;base64, ${
-                  updatedUser.images[updatedUser.images.length - 1]
-                    .image_content
-                }`}
-                alt="Profile"
-              />
-            )}
-        </div>
-        <div>
-          <form>
-            <label className="image-label">
-              <FontAwesomeIcon icon={faCamera} className="camera-icon" />
-              Change Image
-              <input
-                type="file"
-                id="image-upload"
-                className="profile-image-holder"
-                onChange={handleFileChange}
-              />
-            </label>
+    <div>
+      <div className="card panel">
+        <div className="left-panel">
+          <div>
+            {updatedUser &&
+              updatedUser.images &&
+              updatedUser.images.length > 0 && (
+                <img
+                  className="profile-image"
+                  src={`data:image/jpeg;base64, ${
+                    updatedUser.images[updatedUser.images.length - 1]
+                      .image_content
+                  }`}
+                  alt="Profile"
+                />
+              )}
+          </div>
+          <div>
+            <form>
+              <label className="image-label">
+                <FontAwesomeIcon icon={faCamera} className="camera-icon" />
+                Change Image
+                <input
+                  type="file"
+                  id="image-upload"
+                  className="profile-image-holder"
+                  onChange={handleFileChange}
+                />
+              </label>
 
-            <label
-              className={showProfileForm ? "active" : ""}
-              onClick={() => handleFormSwitch(true)}
-            >
-              <FontAwesomeIcon icon={faAddressCard} className="camera-icon" />
-              Update Profile
-            </label>
-            <label
-              className={!showProfileForm ? "active" : ""}
-              onClick={() => handleFormSwitch(false)}
-            >
-              <FontAwesomeIcon icon={faKey} className="camera-icon" />
-              Change Password
-            </label>
-          </form>
+              <label
+                className={showProfileForm ? "active" : ""}
+                onClick={() => handleFormSwitch(true)}
+              >
+                <FontAwesomeIcon icon={faAddressCard} className="camera-icon" />
+                Update Profile
+              </label>
+              <label
+                className={!showProfileForm ? "active" : ""}
+                onClick={() => handleFormSwitch(false)}
+              >
+                <FontAwesomeIcon icon={faKey} className="camera-icon" />
+                Change Password
+              </label>
+            </form>
+          </div>
+        </div>
+        <div className="right-panel">
+          {showProfileForm ? (
+            <div>
+              <form onSubmit={handleSubmit(updateUserProfile)}>
+                <label>Name</label>
+                <input type="text" {...register("name")} required />
+                <label>Email</label>
+                <input type="text" {...register("email")} required />
+                <label>Date of Birth</label>
+                <input type="text" {...register("dob")} required />
+                <button type="submit" className="update btn">
+                  Update
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div>
+              <form onSubmit={handleSubmit(changeUserPassword)}>
+                <label>Old Password</label>
+                <input type="password" {...register("oldPassword")} required />
+                <label>New Password</label>
+                <input type="password" {...register("password")} required />
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  {...register("confirmPassword")}
+                  required
+                />
+                <button type="submit" className="update btn">
+                  Update
+                </button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
-      <div className="right-panel">
-        {showProfileForm ? (
-          <div>
-            <form onSubmit={handleSubmit(updateUserProfile)}>
-              <label>Name</label>
-              <input type="text" {...register("name")} required />
-              <label>Email</label>
-              <input type="text" {...register("email")} required />
-              <label>Date of Birth</label>
-              <input type="text" {...register("dob")} required />
-              <button type="submit" className="update btn">
-                Update
-              </button>
-            </form>
-          </div>
+      My Reports
+      <div
+        className="reports animated fadeInDown"
+        style={{ overflowY: "scroll", height: "600px" }}
+      >
+        {loading ? (
+          <table>
+            <tbody>
+              <tr>
+                <td className="text-center">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
         ) : (
-          <div>
-            <form onSubmit={handleSubmit(changeUserPassword)}>
-              <label>Old Password</label>
-              <input type="password" {...register("oldPassword")} required />
-              <label>New Password</label>
-              <input type="password" {...register("password")} required />
-              <label>Confirm Password</label>
-              <input
-                type="password"
-                {...register("confirmPassword")}
-                required
-              />
-              <button type="submit" className="update btn">
-                Update
-              </button>
-            </form>
-          </div>
+          report &&
+          report.map((item) => (
+            <ReportContainer
+              key={item.id}
+              className="Reports-item"
+              report={item}
+            />
+          ))
         )}
       </div>
     </div>

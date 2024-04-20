@@ -10,6 +10,7 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/report','getAll');
     Route::get('/report/completed','getCompleted');
     Route::get('/report/popular','getMostPopular');
+    Route::get('/report/userReport/{user_id}','getUserReports');
     Route::get('/report/{id}','getById');
     Route::get('/report/delete/{id}','delete');
     Route::patch('/report/vote/{report_id}/{user_id}','postLike');
