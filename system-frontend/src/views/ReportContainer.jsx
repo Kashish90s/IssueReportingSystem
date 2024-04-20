@@ -117,9 +117,7 @@ export default function ReportContainer({ report }) {
         </div>
         <div className="date-status">
           <span className="status">{report.issue_label}</span>
-          <span className="date">
-            {extractedDate} {extractedTime}
-          </span>
+          <span className="date">{report.formatted_time}</span>
         </div>
       </div>
     </div>

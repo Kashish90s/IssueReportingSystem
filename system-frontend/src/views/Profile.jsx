@@ -32,7 +32,7 @@ function Profile() {
           const response = await axiosClient.get(`/user/get/${user.id}`);
           setUpdatedUser(response.data.user);
           reset(response.data.user);
-          getReports(user.id); // Call getReports here with user.id
+          getReports(user.id);
         }
       } catch (error) {
         console.error(error);
@@ -49,7 +49,6 @@ function Profile() {
     axiosClient
       .get(`/report/userReport/${userId}`)
       .then(({ data }) => {
-        console.log(data);
         const reports = data.reports.map((item) => ({
           ...item,
           issue_label:
@@ -57,7 +56,6 @@ function Profile() {
             "Unknown",
           votes: JSON.parse(item.votes),
         }));
-        console.log(reports);
         setLoading(false);
         setReport(reports);
       })
@@ -141,7 +139,6 @@ function Profile() {
     return <div>Loading...</div>;
   }
 
-  console.log(report);
   return (
     <div>
       <div className="card panel">
@@ -226,7 +223,8 @@ function Profile() {
           )}
         </div>
       </div>
-      My Reports
+      <hr style={{ borderWidth: "3px" }} />
+      <h1>My Reports</h1>
       <div
         className="reports animated fadeInDown"
         style={{ overflowY: "scroll", height: "600px" }}

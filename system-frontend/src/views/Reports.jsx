@@ -44,7 +44,7 @@ export default function Reports() {
             issue_label:
               IssueType.find((type) => type.value === item.issue_status)
                 ?.label || "Unknown",
-            votes: JSON.parse(item.votes), // Parse votes from string to array
+            votes: JSON.parse(item.votes),
           }));
           setLoading(false);
           setReport(reports);

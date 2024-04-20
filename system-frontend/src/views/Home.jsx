@@ -100,25 +100,35 @@ export default function Home() {
             </button>
           </span>
           <ol
-            style={{ "--length": 4, listStyle: "none", paddingLeft: 0 }}
+            style={{ "--length": 5, listStyle: "none", paddingLeft: 0 }}
             role="list"
           >
             <li style={{ "--i": 1 }}>
               <h3>Step 1</h3>
-              <p>In home page, scroll down</p>
+              <p>First of all navigate to Home page</p>
             </li>
             <li style={{ "--i": 2 }}>
               <h3>Step 2</h3>
-              <p>Upload/Click picture of the incident</p>
+              <p>Already at Home page? Great!!!</p>
+              <p>On top right you might see a Report button</p>
             </li>
 
             <li style={{ "--i": 3 }}>
               <h3>Step 3</h3>
-              <p>Fill in the details of the incident</p>
+              <p>Found the button? Great!!!</p>
+              <p>
+                Now, click the button and fill all the required fields in detail
+              </p>
             </li>
             <li style={{ "--i": 4 }}>
               <h3>Step 4</h3>
-              <p>Sumbit your report</p>
+              <p>Make sure to correctly fill up each fields</p>
+              <p>This makes it easier to locate the place</p>
+            </li>
+            <li style={{ "--i": 5 }}>
+              <h3>Step 5</h3>
+              <p>Congratulations!!!</p>
+              <p>You are an active member of this society</p>
             </li>
           </ol>
         </div>

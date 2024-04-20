@@ -9,32 +9,55 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Image;
 use App\Models\Location;
 use App\Models\Report;
+use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+
 
 class ReportController extends Controller
 {
     public function getAll()
-{
-    try {
-        $report = Report::with('user', 'image', 'location')->orderBy('id', 'desc')->paginate(12);
+    {
+        try {
+            $reports = Report::with('user', 'image', 'location')->orderBy('id', 'desc')->paginate(12);
 
-         $reportsWithImages = $report->map(function ($report) {
+            $reportsWithImages = $reports->map(function ($report) {
                 $imageContent = null;
                 if ($report->image) {
                     $imagePath = storage_path('app/public/' . $report->image->image_holder);
                     $imageContent = base64_encode(file_get_contents($imagePath));
                 }
                 $report->image_content = $imageContent;
+
+                $createdAt = Carbon::parse($report->created_at);
+                $hoursDifference = $createdAt->diffInHours(Carbon::now());
+                $daysDifference = $createdAt->diffInDays(Carbon::now());
+
+                if ($hoursDifference < 24) {
+                    if ($hoursDifference < 1) {
+                        $formattedCreatedAt = 'just now';
+                    } elseif ($hoursDifference === 1) {
+                        $formattedCreatedAt = '1 hr ago';
+                    } else {
+                        $formattedCreatedAt = $hoursDifference . ' hrs ago';
+                    }
+                } else {
+                    if ($daysDifference === 1) {
+                        $formattedCreatedAt = '1 day ago';
+                    } else {
+                        $formattedCreatedAt = $daysDifference . ' days ago';
+                    }
+                }
+
+                $report->formatted_time = $formattedCreatedAt;
+
                 return $report;
             });
 
-        return response()->json([ApiStatus::Success, 'All report data fetched', 'reports' => $reportsWithImages], 200);
-    } catch (Exception $e) {
-        return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+            return response()->json([ApiStatus::Success, 'All report data fetched', 'reports' => $reportsWithImages], 200);
+        } catch (Exception $e) {
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+        }
     }
-}
 
     public function getCompleted(){
         try{
@@ -47,6 +70,29 @@ class ReportController extends Controller
                     $imageContent = base64_encode(file_get_contents($imagePath));
                 }
                 $report->image_content = $imageContent;
+
+                $createdAt = Carbon::parse($report->created_at);
+                $hoursDifference = $createdAt->diffInHours(Carbon::now());
+                $daysDifference = $createdAt->diffInDays(Carbon::now());
+
+                if ($hoursDifference < 24) {
+                    if ($hoursDifference < 1) {
+                        $formattedCreatedAt = 'just now';
+                    } elseif ($hoursDifference === 1) {
+                        $formattedCreatedAt = '1 hr ago';
+                    } else {
+                        $formattedCreatedAt = $hoursDifference . ' hrs ago';
+                    }
+                } else {
+                    if ($daysDifference === 1) {
+                        $formattedCreatedAt = '1 day ago';
+                    } else {
+                        $formattedCreatedAt = $daysDifference . ' days ago';
+                    }
+                }
+
+                $report->formatted_time = $formattedCreatedAt;
+
                 return $report;
             });
             return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages], 200);
@@ -69,6 +115,29 @@ class ReportController extends Controller
                     $imageContent = base64_encode(file_get_contents($imagePath));
                 }
                 $report->image_content = $imageContent;
+
+                $createdAt = Carbon::parse($report->created_at);
+                $hoursDifference = $createdAt->diffInHours(Carbon::now());
+                $daysDifference = $createdAt->diffInDays(Carbon::now());
+
+                if ($hoursDifference < 24) {
+                    if ($hoursDifference < 1) {
+                        $formattedCreatedAt = 'just now';
+                    } elseif ($hoursDifference === 1) {
+                        $formattedCreatedAt = '1 hr ago';
+                    } else {
+                        $formattedCreatedAt = $hoursDifference . ' hrs ago';
+                    }
+                } else {
+                    if ($daysDifference === 1) {
+                        $formattedCreatedAt = '1 day ago';
+                    } else {
+                        $formattedCreatedAt = $daysDifference . ' days ago';
+                    }
+                }
+
+                $report->formatted_time = $formattedCreatedAt;
+
                 return $report;
             });
             return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages, 'soretVote'=>$sortedVotes], 200);
@@ -90,6 +159,29 @@ class ReportController extends Controller
                     $imageContent = base64_encode(file_get_contents($imagePath));
                 }
                 $report->image_content = $imageContent;
+
+                $createdAt = Carbon::parse($report->created_at);
+                $hoursDifference = $createdAt->diffInHours(Carbon::now());
+                $daysDifference = $createdAt->diffInDays(Carbon::now());
+
+                if ($hoursDifference < 24) {
+                    if ($hoursDifference < 1) {
+                        $formattedCreatedAt = 'just now';
+                    } elseif ($hoursDifference === 1) {
+                        $formattedCreatedAt = '1 hr ago';
+                    } else {
+                        $formattedCreatedAt = $hoursDifference . ' hrs ago';
+                    }
+                } else {
+                    if ($daysDifference === 1) {
+                        $formattedCreatedAt = '1 day ago';
+                    } else {
+                        $formattedCreatedAt = $daysDifference . ' days ago';
+                    }
+                }
+
+                $report->formatted_time = $formattedCreatedAt;
+
                 return $report;
             });
             return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages, 'soretVote'=>$sortedVotes], 200);
