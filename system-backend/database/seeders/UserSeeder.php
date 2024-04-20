@@ -9,14 +9,19 @@ use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $faker = Faker::create();
+        $user = new User();
 
-        for($i = 1; $i <= 20; $i++){
+
+            $user->name = "Admin";
+            $user->email = "admin@gmail.com";
+            $user->password = "admin936471852";
+            $user->type = 1;
+            $user->save();
+
+        for($i = 1; $i <= 50; $i++){
             $user = new User();
 
 
@@ -25,8 +30,6 @@ class UserSeeder extends Seeder
             $user->code = $faker->unique()->bothify('??##???###');
             $user->password = $faker->password;
             $user->dob = $faker->date($format = 'Y-m-d', $max = 'now');
-            //     $user->type = $faker->numberBetween(0, 2);
-            //     $user->status = $faker->numberBetween(0, 2);
             $user->google_id = $faker->bothify('??##???###');
             $user->save();
         }

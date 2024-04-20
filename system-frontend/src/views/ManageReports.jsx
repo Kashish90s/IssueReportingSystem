@@ -5,7 +5,6 @@ import { IssueType } from "../constant/constant";
 import {
   faChevronRight,
   faChevronDown,
-  faPenToSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -37,7 +36,7 @@ export default function ManageReports() {
           .get(`/report/delete/${u.id}`)
           .then(() => {
             Swal.fire("Deleted!", "Your item has been deleted.", "success");
-            getUsers(); // Refresh data after deletion
+            getUsers();
           })
           .catch(() => {
             Swal.fire("Error!", "Failed to delete the item.", "error");
@@ -69,14 +68,15 @@ export default function ManageReports() {
   const toggleStatus = (id, event) => {
     event.preventDefault();
     axiosClient.patch(`/report/toggleIssueStatus/${id}`).then(() => {
-      getUsers(); // Refresh data after status toggle
+      getUsers();
     });
   };
 
   const toggleExpand = (id, event) => {
-    // Prevent row expansion when the fontawesome icon is clicked
-    if (event.target.tagName === "svg") {
-      event.stopPropagation();
+    if (event && event.target) {
+      if (event.target.tagName === "svg") {
+        event.stopPropagation();
+      }
       setExpandedRow((prevRow) => (prevRow === id ? null : id));
     }
   };
@@ -93,6 +93,15 @@ export default function ManageReports() {
         img.style.maxHeight = "300px";
       },
     });
+  };
+
+  const previousPage = () => {
+    if (count > 1) {
+      setCount(count - 1);
+    }
+  };
+  const nextPage = () => {
+    setCount(count + 1);
   };
 
   return (
@@ -141,7 +150,7 @@ export default function ManageReports() {
                     </td>
                     <td>{u.id}</td>
                     <td>{u.title}</td>
-                    <td>{u.location && u.location.ward}</td>
+                    <td>{u.location && u.location.street_name}</td>
                     <td>{u.created_at.split("T")[0]}</td>
                     <td>
                       <button
@@ -208,6 +217,23 @@ export default function ManageReports() {
             )}
           </tbody>
         </table>
+        <div style={{ textAlign: "center", padding: "20px" }}>
+          <span
+            style={{ padding: "0.2rem 0.5rem", cursor: "pointer" }}
+            className="btn-logout"
+            onClick={previousPage}
+          >
+            {"<<"}Previous
+          </span>
+          <span>{count}</span>
+          <span
+            style={{ padding: "0.2rem 0.5rem", cursor: "pointer" }}
+            className="btn-logout"
+            onClick={nextPage}
+          >
+            Next Page{">>"}
+          </span>
+        </div>
       </div>
     </div>
   );

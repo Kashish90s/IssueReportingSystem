@@ -4,12 +4,14 @@ import { formatNumber } from "../utility/NumberFormatter";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../context/ContextProvider";
+import { UserType } from "../constant/constant";
 
 export default function ReportContainer({ report }) {
   const { user } = useStateContext();
   const [vote, setVote] = useState(0);
   const [voteBg, setVoteBg] = useState(false);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [voteColor, setVoteColor] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const date = new Date(report.created_at);
   const extractedDate = date.toISOString().split("T")[0];
@@ -28,14 +30,17 @@ export default function ReportContainer({ report }) {
 
   useEffect(() => {
     if (user) {
-      setLoading(false); // Set loading to false when user is available
+      setLoading(false);
     }
   }, [user]);
 
   const handelColorChange = (votes) => {
-    if (user) {
+    if (user && Array.isArray(votes)) {
       const userVoted = votes.some((vote) => vote === user.id.toString());
-      setVoteBg(userVoted ? "red" : "");
+      setVoteBg(userVoted ? "#145388" : "white");
+      setVoteColor(userVoted ? "white" : "#145388");
+    } else {
+      console.error("Invalid votes data format:", votes);
     }
   };
 
@@ -44,18 +49,18 @@ export default function ReportContainer({ report }) {
       axiosClient
         .patch(`/report/vote/${report.id}/${user.id}`)
         .then((data) => {
-          setVote(data.data.votes.length);
-          handelColorChange(data.data.votes);
+          if (data.data && data.data.votes && Array.isArray(data.data.votes)) {
+            setVote(data.data.votes.length);
+            handelColorChange(data.data.votes);
+          } else {
+            console.error("Invalid vote data format:", data);
+          }
         })
         .catch((error) => {
           console.error("Error fetching vote count:", error);
         });
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>; // Render loading state
-  }
 
   return (
     <div>
@@ -70,19 +75,32 @@ export default function ReportContainer({ report }) {
         )}
         <div className="vote">
           <span className="upvote-button">
-            <button
-              onClick={handelVote}
-              className="btn"
-              style={{
-                padding: "0.1rem 0.4rem",
-                borderRadius: "10%",
-                marginRight: "6px",
-                backgroundColor: voteBg,
-              }}
-            >
-              <FontAwesomeIcon icon={faArrowUp} />
-              Vote
-            </button>
+            {user.type ===
+              UserType.find((type) => type.label === "Client").value && (
+              <button
+                onClick={handelVote}
+                className="btn"
+                style={{
+                  padding: "0.1rem 0.4rem",
+                  borderRadius: "10%",
+                  marginRight: "6px",
+                  backgroundColor: voteBg,
+                  color: voteColor,
+                  transition: "background-color 0.5s, color 0.5s",
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faArrowUp}
+                  style={{ color: voteColor }}
+                  className="up-vote"
+                />
+                Vote
+              </button>
+            )}
+            {user.type ===
+              UserType.find((type) => type.label === "Admin").value && (
+              <span>Votes </span>
+            )}
             {voteLength(vote)}
           </span>
           <span
