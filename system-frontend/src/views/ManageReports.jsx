@@ -196,11 +196,11 @@ export default function ManageReports() {
                           </div>
                           <div>
                             <p>
-                              <strong>Location Zip:</strong>
+                              <strong>Zip Code:</strong>
                               <br /> {u.location && u.location.zip_code}
                             </p>
                             <p>
-                              <strong>Location Street:</strong>
+                              <strong>Street:</strong>
                               <br /> {u.location && u.location.street_name}
                             </p>
                             <p className="report-description">

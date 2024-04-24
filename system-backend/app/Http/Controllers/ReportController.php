@@ -192,11 +192,48 @@ class ReportController extends Controller
 
     public function getById($id)
     {
+
         try{
-            $report = Report::findorfail($id);
-            return response()->json([ApiStatus::Success,'Id found and data fetched','report'=>$report], 200);;
+            $report = Report::with('user','image','location')->where('id',$id)->get();
+            $sortedVotes = $report->sortByDesc(function ($item) {
+            return $item->votes;
+            });
+
+            $reportsWithImages = $report->map(function ($report) {
+                $imageContent = null;
+                if ($report->image) {
+                    $imagePath = storage_path('app/public/' . $report->image->image_holder);
+                    $imageContent = base64_encode(file_get_contents($imagePath));
+                }
+                $report->image_content = $imageContent;
+
+                $createdAt = Carbon::parse($report->created_at);
+                $hoursDifference = $createdAt->diffInHours(Carbon::now());
+                $daysDifference = $createdAt->diffInDays(Carbon::now());
+
+                if ($hoursDifference < 24) {
+                    if ($hoursDifference < 1) {
+                        $formattedCreatedAt = 'just now';
+                    } elseif ($hoursDifference === 1) {
+                        $formattedCreatedAt = '1 hr ago';
+                    } else {
+                        $formattedCreatedAt = $hoursDifference . ' hrs ago';
+                    }
+                } else {
+                    if ($daysDifference === 1) {
+                        $formattedCreatedAt = '1 day ago';
+                    } else {
+                        $formattedCreatedAt = $daysDifference . ' days ago';
+                    }
+                }
+
+                $report->formatted_time = $formattedCreatedAt;
+
+                return $report;
+            });
+            return response()->json([ApiStatus::Success, 'Reports fetched by id', 'reports' => $reportsWithImages, 'soretVote'=>$sortedVotes], 200);
         }catch(Exception $e){
-            return response()->json([ApiStatus::Failure,'message' => $e->getMessage()], 200);
+            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
     }
 

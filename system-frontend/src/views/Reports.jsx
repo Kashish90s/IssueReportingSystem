@@ -59,6 +59,7 @@ export default function Reports() {
     setActiveFilter(filter);
     setCount(1);
   };
+
   return (
     <div>
       <div

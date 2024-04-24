@@ -5,17 +5,15 @@ import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../context/ContextProvider";
 import { UserType } from "../constant/constant";
+import { useNavigate } from "react-router-dom";
 
 export default function ReportContainer({ report }) {
   const { user } = useStateContext();
+  const navigate = useNavigate();
   const [vote, setVote] = useState(0);
   const [voteBg, setVoteBg] = useState(false);
   const [voteColor, setVoteColor] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const date = new Date(report.created_at);
-  const extractedDate = date.toISOString().split("T")[0];
-  const extractedTime = date.toISOString().split("T")[1].split(".")[0];
 
   const voteLength = (val) => {
     return formatNumber(val);
@@ -60,6 +58,10 @@ export default function ReportContainer({ report }) {
           console.error("Error fetching vote count:", error);
         });
     }
+  };
+
+  const handleReport = (user_id) => {
+    navigate("/ReportPreview/" + user_id);
   };
 
   return (
@@ -107,6 +109,7 @@ export default function ReportContainer({ report }) {
             style={{
               cursor: "pointer",
             }}
+            onClick={() => handleReport(report.id)}
           >
             Comment
           </span>
