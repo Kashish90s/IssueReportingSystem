@@ -16,7 +16,6 @@ class ImageSeeder extends Seeder
         $faker = Faker::create();
         for($i = 1; $i <= 20; $i++){
             $image = new Image();
-
             $image->image_holder = $faker->word . '.jpg';
             $image->user_id = $faker->numberBetween(1,20);
             $image->save();

@@ -5,10 +5,12 @@
 }
 
 .card {
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 0;
   margin: 0;
   padding: 0;
+  border: 0;
+  box-shadow: 0;
 }
 
 /* .comments-section {
@@ -20,9 +22,6 @@
   margin-bottom: 15px;
 }
 
-.comment-avatar {
-  margin-right: 10px;
-}
 
 /* .comment-content { */
 /*   
@@ -35,8 +34,9 @@
   padding: 10px;
   width: 100%;
   z-index: 1;
+  margin: 0;
+  border-top: 1px solid rgb(214, 214, 214);
 }
-
 .input-container button {
   width: 80px;
   padding: 10px;
@@ -51,9 +51,13 @@
   background-color: #147388; 
 }
 .image-content img {
+  width: 37.3rem;
   margin: 0;
-  padding: 0;
   border-radius: 0;
+  object-fit: cover;
+  box-shadow: 0;
+  width: 99%;
+  
 }
 .top-area{
   padding: 12px;

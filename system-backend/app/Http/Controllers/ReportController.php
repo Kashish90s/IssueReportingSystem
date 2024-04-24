@@ -194,7 +194,7 @@ class ReportController extends Controller
     {
 
         try{
-            $report = Report::with('user','image','location')->where('id',$id)->get();
+            $report = Report::with('user','image','location','comments')->where('id',$id)->get();
             $sortedVotes = $report->sortByDesc(function ($item) {
             return $item->votes;
             });
