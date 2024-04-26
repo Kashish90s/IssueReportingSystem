@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
-import { IssueType } from "../constant/constant";
+import { IssueType, UserType } from "../constant/constant";
 import "./ReportPreview.css";
 import { useStateContext } from "../context/ContextProvider";
 
@@ -12,7 +12,12 @@ function ReportPreview() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [userNames, setUserNames] = useState({});
+  const [status, setStatus] = useState({});
   const { user } = useStateContext();
+
+  useEffect(() => {
+    setUserNames({ [user.id]: user.name });
+  }, [user]);
 
   useEffect(() => {
     getReports();
@@ -49,10 +54,13 @@ function ReportPreview() {
       axiosClient
         .get(`/user/get/${userId}`)
         .then((response) => {
-          // console.log(response.data.user.name);
           setUserNames((prevUserNames) => ({
             ...prevUserNames,
             [userId]: response.data.user.name,
+          }));
+          setStatus((prevUserType) => ({
+            ...prevUserType,
+            [userId]: response.data.user.type,
           }));
         })
         .catch((error) => {
@@ -68,14 +76,39 @@ function ReportPreview() {
     return null;
   }
 
+  const handleComment = (ev) => {
+    ev.preventDefault();
+
+    const formData = new FormData();
+    formData.append("user_id", user.id);
+    formData.append("report_id", id);
+    formData.append("description", newComment);
+
+    axiosClient
+      .post(`/comment/add`, formData)
+      .then(() => {
+        setComments([
+          ...comments,
+          { user_id: user.id, description: newComment },
+        ]);
+        setNewComment("");
+      })
+      .catch((error) => {
+        console.error("Error adding comment:", error);
+      });
+  };
+
   return (
     <div className="card-container">
       <div className="card animated fadeInDown">
         <div className="top-area">
-          @{report.reports[0].user?.name}
+          <span className="user-name">{report.reports[0].user?.name} </span>
           <br />
-          {report.reports[0].formatted_time} <br />
-          {report.reports[0].title}
+          <span className="time">{report.reports[0].formatted_time},</span>
+          &nbsp;
+          <span className="street-name">
+            {report.reports[0].location.street_name}
+          </span>
         </div>
         <div className="image-content">
           {report.reports[0].image_content && (
@@ -86,28 +119,48 @@ function ReportPreview() {
             />
           )}
         </div>
-        <div className="bottom-area">
-          <div>{Object.keys(userNames).length} Comments</div>
-          <hr />
-          <div>{report.reports[0].description}</div>
-          <div>{report.reports[0].location.street_name}</div>
-          <div>
-            Ward: {report.reports[0].location.ward} Zip code:{" "}
-            {report.reports[0].location.zip_code}
-          </div>
-          <hr />
-          <div className="comments-section">
-            {comments.map((comment, index) => (
-              <div key={index}>
-                <p>
-                  {userNames[comment.user_id]}: {comment.description}
-                </p>
+        {Object.keys(userNames).length > 0 && (
+          <div className="bottom-area">
+            <div>{comments.length} Comments</div>
+            <div class="separator">Description</div>
+            <span className="report-title">{report.reports[0].title}</span>
+            <div className="report-description">
+              {report.reports[0].description}
+            </div>
+            <div class="separator">Comments</div>
+            {comments.length > 0 ? (
+              <div className="comments-section">
+                {comments.map((comment, index) => (
+                  <div key={index}>
+                    <p
+                      style={{
+                        color:
+                          UserType.find(
+                            (type) => type.value === status[comment.user_id]
+                          )?.label === "Admin"
+                            ? "#ce3535"
+                            : "inherit",
+                      }}
+                    >
+                      <span className="commentor">
+                        {userNames[comment.user_id]}
+                      </span>
+                      <span className="comment-description">
+                        {" "}
+                        {comment.description}
+                      </span>
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <div>No comments</div>
+            )}
           </div>
-        </div>
+        )}
+
         <div className="input-container card">
-          <form onSubmit={handleComment(event)}>
+          <form onSubmit={handleComment}>
             <input type="hidden" value={user.id} />
             <input type="hidden" value={id} />
             <input
@@ -116,7 +169,7 @@ function ReportPreview() {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
             />
-            <button type="button">Send</button>
+            <button type="submit">Send</button>
           </form>
         </div>
       </div>

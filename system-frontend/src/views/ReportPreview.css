@@ -56,7 +56,7 @@
   border-radius: 0;
   object-fit: cover;
   box-shadow: 0;
-  width: 99%;
+  width: 100%;
   
 }
 .top-area{
@@ -64,4 +64,56 @@
 }
 .bottom-area{
   padding: 12px;
+}
+.user-name{
+  font-size: medium;
+  font-weight: 600;
+}
+.time, .street-name{
+  font-size:smaller;
+  font-weight: 300;
+  color: grey;
+}
+.report-title{
+  font-size: larger;
+  font-weight: 600;
+}
+.report-description{
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: small;
+  font-weight: 400;
+}
+.commentor{
+  font-size: small;
+  font-weight: 500;
+  padding-bottom: 4px;
+}
+.comment-description{
+  font-size: small;
+  font-weight: 350;
+  padding-bottom: 4px;
+}
+.comments-section{
+  margin-top: 6px;
+}
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #000;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
 }
