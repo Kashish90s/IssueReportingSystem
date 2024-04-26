@@ -100,15 +100,24 @@ class ReportController extends Controller
             return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
         }
     }
-
     public function getMostPopular(){
         try{
-            $report = Report::with('user','image','location')->get();
-            $sortedVotes = $report->sortByDesc(function ($item) {
-            return $item->votes;
+            $reports = Report::with('user', 'image', 'location')->get();
+    
+            // Calculate vote count for each report
+            $reportsWithVoteCounts = $reports->map(function ($report) {
+                // If votes is null or empty string, set vote count to 0
+                $votesArray = json_decode($report->votes, true);
+                $voteCount = is_array($votesArray) ? count($votesArray) : 0;
+                $report->vote_count = $voteCount;
+                return $report;
             });
-
-            $reportsWithImages = $report->map(function ($report) {
+    
+            // Sort reports by vote count in descending order
+            $sortedReports = $reportsWithVoteCounts->sortByDesc('vote_count');
+    
+            // Process each report to add image content and format creation time
+            $reportsWithImages = $sortedReports->map(function ($report) {
                 $imageContent = null;
                 if ($report->image) {
                     $imagePath = storage_path('app/public/' . $report->image->image_holder);
@@ -140,11 +149,26 @@ class ReportController extends Controller
 
                 return $report;
             });
-            return response()->json([ApiStatus::Success, 'Completed Reports fetched', 'reports' => $reportsWithImages, 'soretVote'=>$sortedVotes], 200);
-        }catch(Exception $e){
-            return response()->json([ApiStatus::Failure, 'message' => $e->getMessage()], 200);
+    
+            // Convert the sorted reports to a plain array and maintain the order
+            $reportsArray = $reportsWithImages->values()->all();
+    
+            return response()->json([
+                ApiStatus::Success,
+                'Completed Reports fetched',
+                'reports' => $reportsArray
+            ], 200);
+        } catch(Exception $e) {
+            return response()->json([
+                ApiStatus::Failure,
+                'message' => $e->getMessage()
+            ], 200);
         }
     }
+    
+    
+
+
     public function getUserReports($user_id){
         try{
             $report = Report::with('user','image','location')->where('user_id',$user_id)->get();

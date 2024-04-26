@@ -10,10 +10,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
 import "./ManageReport.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageReports() {
   const { users, setUsers } = useStateContext();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [count, setCount] = useState(1);
   const [expandedRow, setExpandedRow] = useState(null);
 
@@ -104,6 +106,9 @@ export default function ManageReports() {
     setCount(count + 1);
   };
 
+  const handleReport = (user_id) => {
+    navigate("/ReportPreview/" + user_id);
+  };
   return (
     <div>
       <div
@@ -149,7 +154,14 @@ export default function ManageReports() {
                       />
                     </td>
                     <td>{u.id}</td>
-                    <td>{u.title}</td>
+                    <td
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleReport(u.id)}
+                    >
+                      {u.title}
+                    </td>
                     <td>{u.location && u.location.street_name}</td>
                     <td>{u.created_at.split("T")[0]}</td>
                     <td>

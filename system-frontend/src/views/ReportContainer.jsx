@@ -63,7 +63,6 @@ export default function ReportContainer({ report }) {
   const handleReport = (user_id) => {
     navigate("/ReportPreview/" + user_id);
   };
-
   return (
     <div>
       <div className="container">
@@ -73,6 +72,10 @@ export default function ReportContainer({ report }) {
             className="image-holder"
             src={`data:image/jpeg;base64, ${report.image_content}`}
             alt="Image"
+            style={{
+              cursor: "pointer",
+            }}
+            onClick={() => handleReport(report.id)}
           />
         )}
         <div className="vote">
