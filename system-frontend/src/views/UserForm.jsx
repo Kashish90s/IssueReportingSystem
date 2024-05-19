@@ -48,6 +48,7 @@ function UserForm() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
+
     if (user.id) {
       axiosClient
         .post(`/user/update/${user.id}`, user)
@@ -65,6 +66,7 @@ function UserForm() {
           }
         });
     } else {
+      console.log(user);
       axiosClient
         .post(`/user/add`, user)
         .then(() => {

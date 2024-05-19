@@ -20,6 +20,7 @@ class UserRequest extends FormRequest
             //RFC 5322 standard for email addresses
             // 'email' => 'required|email:rfc,dns','max:255',Rule::unique('users')->ignore($userId),
             //. operator also used as a ignore syntax
+            'name'=> 'nullable',
             'email' => 'required|email:rfc,dns|max:255|unique:users,email,'.$this->id,
             'password' => 'required|min:8',
             'code' => 'nullable',
